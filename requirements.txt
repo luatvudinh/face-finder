@@ -1,0 +1,6 @@
+# Ghim phiên bản đã kiểm chứng (10/2026). setup.sh tự cài bản mới nhất nếu các bản này không cài được.
+numpy==2.5.3
+opencv-python==5.0.0.93
+onnxruntime==1.30.0
+pillow==12.3.0
+pillow-heif==1.8.0

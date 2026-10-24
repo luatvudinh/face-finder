@@ -1,0 +1,16 @@
+/.DS_Store
+.DS_Store
+/models
+/venv
+__pycache__/
+# Không bao giờ commit ảnh, kết quả hay cache "vân mặt" (dữ liệu cá nhân)
+*.pkl
+*.csv
+*.zip
+*.jpg
+*.jpeg
+*.JPG
+*.JPEG
+*.png
+*.heic
+*.HEIC
