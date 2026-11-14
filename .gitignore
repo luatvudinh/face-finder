@@ -1,0 +1,37 @@
+# CLI Python là repo riêng
+/face-finder/
+
+# Model (tự tải + chuyển bằng tools/convert_models.py) và dữ liệu sinh ra
+/models/
+/golden/
+*.mlpackage
+*.mlmodelc
+*.onnx
+
+# Không bao giờ commit ảnh, kết quả hay "vân mặt" (dữ liệu cá nhân)
+*.pkl
+*.csv
+*.zip
+*.jpg
+*.jpeg
+*.JPG
+*.JPEG
+*.png
+*.heic
+*.HEIC
+*.sqlite
+*.sqlite-*
+
+# Python
+.venv/
+venv/
+__pycache__/
+
+# Swift / Xcode
+.build/
+.swiftpm/
+DerivedData/
+xcuserdata/
+*.xcuserstate
+
+.DS_Store

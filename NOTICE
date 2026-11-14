@@ -1,0 +1,24 @@
+Face Finder — ghi nhận bản quyền của các thành phần đi kèm
+
+MODEL (không nằm trong repo; tools/convert_models.py tải và chuyển đổi, bản build phát hành đóng gói sẵn)
+
+  ArcFace w600k_r50 — InsightFace (https://github.com/deepinsight/insightface), gói buffalo_l.
+    CHỈ ĐƯỢC DÙNG CHO MỤC ĐÍCH PHI THƯƠNG MẠI. Vì vậy app này, khi còn đi kèm model đó, không được dùng cho
+    mục đích thương mại.
+  YuNet face_detection_yunet_2023mar — OpenCV Zoo (https://github.com/opencv/opencv_zoo). Giấy phép MIT.
+
+THƯ VIỆN
+
+  libjpeg-turbo 3.1.4.1 — https://libjpeg-turbo.org. Giấy phép IJG và BSD 3 điều khoản sửa đổi (kèm zlib).
+    Mã nguồn chép nguyên văn tại FaceFinderKit/Sources/CJPEGTurbo/upstream; toàn văn giấy phép: LICENSE.md và
+    README.ijg trong thư mục đó.
+    "This software is based in part on the work of the Independent JPEG Group."
+  ZIPFoundation — https://github.com/weichsel/ZIPFoundation. Giấy phép MIT.
+  GRDB.swift — https://github.com/groue/GRDB.swift. Giấy phép MIT.
+
+THUẬT TOÁN CHÉP LẠI
+
+  Bộ lọc thu nhỏ ảnh (PILResample.swift) viết lại theo libImaging/Resample.c của Pillow
+    (https://python-pillow.org, giấy phép MIT-CMU).
+  Giải mã đầu ra YuNet, NMS và ước lượng LMEDS (FaceDetector.swift, Aligner.swift) viết lại theo OpenCV
+    (https://opencv.org, giấy phép Apache 2.0).
