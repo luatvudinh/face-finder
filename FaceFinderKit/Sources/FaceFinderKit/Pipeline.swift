@@ -8,6 +8,24 @@ public struct AnalysisOutput: Sendable {
     public var cached = 0
 }
 
+/// Tạm dừng / tiếp tục việc lập chỉ mục (huỷ thì huỷ Task đang chạy).
+public final class PipelineControl: @unchecked Sendable {
+    private let lock = NSLock()
+    private var paused = false
+
+    public init() {}
+
+    public var isPaused: Bool {
+        get { lock.withLock { paused } }
+        set { lock.withLock { paused = newValue } }
+    }
+
+    /// Chờ tới khi hết tạm dừng (hoặc Task bị huỷ).
+    func waitWhilePaused() async {
+        while isPaused, !Task.isCancelled { try? await Task.sleep(for: .milliseconds(200)) }
+    }
+}
+
 /// Phát việc cho các luồng xử lý, mỗi lần một ảnh.
 private actor WorkQueue {
     private var items: ArraySlice<ImageItem>
@@ -22,6 +40,7 @@ public enum Pipeline {
     /// Phân tích các ảnh chưa có trong chỉ mục, chạy song song; ảnh đã có thì lấy lại ngay.
     /// `progress(đã xong, tổng số cần phân tích)` được gọi sau mỗi ảnh.
     public static func analyze(_ items: [ImageItem], analyzer: Analyzer, index: FaceIndex?, workers: Int = defaultWorkers,
+                               control: PipelineControl? = nil,
                                progress: @escaping @Sendable (Int, Int) -> Void = { _, _ in }) async throws -> AnalysisOutput {
         var out = AnalysisOutput()
         let signature = analyzer.config.signature
@@ -38,7 +57,9 @@ public enum Pipeline {
                 for _ in 0..<max(1, min(workers, todo.count)) {
                     group.addTask {
                         let reader = ItemReader()
-                        while !Task.isCancelled, let item = await queue.next() {
+                        while !Task.isCancelled {
+                            await control?.waitWhilePaused()
+                            guard !Task.isCancelled, let item = await queue.next() else { break }
                             let result: Result = autoreleasepool {
                                 do { return (item, try analyzer.analyze(try reader.read(item)), nil) }
                                 catch { return (item, [], "\(error)") }

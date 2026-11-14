@@ -5,10 +5,12 @@ import GRDB
 ///
 /// File chứa "vân mặt" (dữ liệu sinh trắc học) nên chỉ chủ máy được đọc/ghi.
 public final class FaceIndex: Sendable {
-    private let db: DatabaseQueue
+    let db: DatabaseQueue
 
     public static var defaultURL: URL {
-        FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask)[0]
+        // Application Support chứ không phải Caches: ngoài chỉ mục còn có người đã lưu, không được để hệ thống tự xoá.
+        // Trong app (sandbox) thư mục này nằm trong container riêng của app.
+        FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0]
             .appendingPathComponent("FaceFinder/index.sqlite")
     }
 
@@ -44,6 +46,31 @@ public final class FaceIndex: Sendable {
                     embedding BLOB NOT NULL          -- 512 x Float16
                 );
                 CREATE INDEX faces_imageId ON faces(imageId, idx);
+                """)
+        }
+        m.registerMigration("v2: sources + grants + people") { db in
+            try db.execute(sql: """
+                CREATE TABLE sources (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    path TEXT NOT NULL UNIQUE,       -- thư mục hoặc file zip
+                    isZip INTEGER NOT NULL,
+                    bookmark BLOB,                   -- security-scoped bookmark (app sandbox)
+                    addedAt REAL NOT NULL
+                );
+                CREATE TABLE grants (               -- thư mục người dùng cho phép ghi (vd. thư mục chứa zip)
+                    path TEXT PRIMARY KEY,
+                    bookmark BLOB NOT NULL
+                );
+                CREATE TABLE people (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    uuid TEXT NOT NULL UNIQUE,
+                    name TEXT NOT NULL,
+                    createdAt REAL NOT NULL,
+                    threshold REAL NOT NULL,
+                    refs BLOB NOT NULL,              -- JSON [PersonReference]: khuôn mặt mẫu + ảnh nhỏ
+                    outputFolder TEXT,               -- thư mục "Face Finder - <tên>" đang dùng
+                    outputFiles BLOB NOT NULL        -- JSON [OutputFile]: file do app tạo trong thư mục đó
+                );
                 """)
         }
         return m
@@ -102,9 +129,13 @@ public final class FaceIndex: Sendable {
         }
     }
 
-    /// "Xoá toàn bộ dữ liệu khuôn mặt".
+    /// "Xoá toàn bộ dữ liệu khuôn mặt": chỉ mục và người đã lưu (cả hai đều chứa "vân mặt").
+    /// Giữ lại danh sách nguồn ảnh và quyền truy cập thư mục. Thư mục kết quả đã ghi ra không bị đụng tới.
     public func removeAll() throws {
-        try db.write { db in try db.execute(sql: "DELETE FROM images") }
+        try db.write { db in
+            try db.execute(sql: "DELETE FROM images")
+            try db.execute(sql: "DELETE FROM people")
+        }
         try db.vacuum()
     }
 }

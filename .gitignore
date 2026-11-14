@@ -35,3 +35,7 @@ xcuserdata/
 *.xcuserstate
 
 .DS_Store
+.build-app/
+.build-app-selftest/
+dist/
+.build-app-release/

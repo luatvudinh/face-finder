@@ -46,13 +46,17 @@ let package = Package(
                 "upstream/src/wrapper/jquant1-12.c", "upstream/src/wrapper/jquant2-8.c",
                 "upstream/src/wrapper/jquant2-12.c",
             ],
-            cSettings: [.headerSearchPath("config"), .headerSearchPath("upstream/src"), .define("NEON_INTRINSICS")]
+            cSettings: [.headerSearchPath("config"), .headerSearchPath("upstream/src"), .define("NEON_INTRINSICS"),
+                        .unsafeFlags(["-O2"], .when(configuration: .debug))]
         ),
         .target(name: "FaceFinderKit", dependencies: [
             "CJPEGTurbo",
             .product(name: "ZIPFoundation", package: "ZIPFoundation"),
             .product(name: "GRDB", package: "GRDB.swift"),
-        ]),
+        ],
+        // Luôn tối ưu, kể cả bản Debug chạy từ Xcode: không tối ưu thì giải mã/thu nhỏ ảnh chậm hơn hàng chục lần
+        // và lập chỉ mục trông như bị treo. (unsafeFlags chỉ dùng được vì đây là package nội bộ của dự án.)
+        swiftSettings: [.unsafeFlags(["-O"], .when(configuration: .debug))]),
         .executableTarget(name: "ffcli", dependencies: ["FaceFinderKit"]),
         .testTarget(name: "FaceFinderKitTests", dependencies: ["FaceFinderKit"], resources: [.copy("Fixtures")]),
     ]

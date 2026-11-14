@@ -52,8 +52,16 @@ public struct SearchResult: Sendable {
     public let scores: [ItemScore]
     public let threshold: Double
     public let review: Double
+    /// Cận dưới "Cần kiểm tra" khi chưa bị chặn bởi ngưỡng (`review = min(threshold, reviewBase)`).
+    public let reviewBase: Double
     /// Số khuôn mặt mẫu được bổ sung ở bước mở rộng.
     public let expandedBy: Int
+
+    /// Cùng kết quả với ngưỡng khác: điểm không đổi, chỉ chia nhóm lại (thanh trượt ngưỡng trong app).
+    /// Bước mở rộng dùng ngưỡng riêng (0.60) nên không phải chấm lại.
+    public func with(threshold: Double) -> SearchResult {
+        SearchResult(scores: scores, threshold: threshold, review: min(threshold, reviewBase), reviewBase: reviewBase, expandedBy: expandedBy)
+    }
 
     public func status(of score: Float) -> MatchStatus {
         Double(score) >= threshold ? .matched : Double(score) >= review ? .review : .none
@@ -252,7 +260,12 @@ public enum Scorer {
     /// rồi chấm lại).
     public static func search(references: [RefFace], items: [ImageItem], faces: [String: [FaceRecord]],
                               options: SearchOptions = SearchOptions()) -> SearchResult {
-        let base = references.map(\.face.embedding)
+        search(embeddings: references.map(\.face.embedding), items: items, faces: faces, options: options)
+    }
+
+    /// Như trên, với vân mặt mẫu đã lưu sẵn (người đã tạo trong app).
+    public static func search(embeddings base: [[Float]], items: [ImageItem], faces: [String: [FaceRecord]],
+                              options: SearchOptions = SearchOptions()) -> SearchResult {
         var (scores, faceScores) = score(items, faces, target: centroid(base))
         var added = 0
         if options.expand {
@@ -267,10 +280,11 @@ public enum Scorer {
                 added = confident.count
             }
         }
-        let review = min(options.threshold, options.review ?? autoReviewThreshold(faceScores: faceScores, threshold: options.threshold))
+        let reviewBase = options.review ?? autoReviewThreshold(faceScores: faceScores, threshold: 1)
+        let review = min(options.threshold, reviewBase)
         let sorted = scores.enumerated()
             .sorted { $0.element.score != $1.element.score ? $0.element.score > $1.element.score : $0.offset < $1.offset }
             .map(\.element)
-        return SearchResult(scores: sorted, threshold: options.threshold, review: review, expandedBy: added)
+        return SearchResult(scores: sorted, threshold: options.threshold, review: review, reviewBase: reviewBase, expandedBy: added)
     }
 }

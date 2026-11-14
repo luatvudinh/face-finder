@@ -1,0 +1,63 @@
+# Sinh FaceFinder.xcodeproj bằng XcodeGen:  cd FaceFinder && xcodegen
+# (project đã sinh cũng được commit, mở thẳng bằng Xcode không cần XcodeGen)
+#
+# Cần có models/YuNet.mlpackage và models/ArcFaceR50.mlpackage ở gốc dự án: chạy tools/convert_models.py trước.
+name: FaceFinder
+options:
+  bundleIdPrefix: io.github.facefinder
+  deploymentTarget:
+    macOS: "15.0"
+  developmentLanguage: vi
+packages:
+  FaceFinderKit:
+    path: ../FaceFinderKit
+targets:
+  FaceFinder:
+    type: application
+    platform: macOS
+    sources:
+      - path: App
+      - path: ../models/YuNet.mlpackage
+      - path: ../models/ArcFaceR50.mlpackage
+    dependencies:
+      - package: FaceFinderKit
+        product: FaceFinderKit
+    info:
+      path: App/Info.plist
+      properties:
+        CFBundleDisplayName: Face Finder
+        CFBundleShortVersionString: "0.2.0"
+        CFBundleVersion: "2"
+        CFBundleDevelopmentRegion: vi
+        LSApplicationCategoryType: public.app-category.photography
+        LSMinimumSystemVersion: "15.0"
+        NSHumanReadableCopyright: "Mã nguồn MIT. Model ArcFace của InsightFace: chỉ dùng phi thương mại."
+    entitlements:
+      path: App/FaceFinder.entitlements
+      properties:
+        # Sandbox KHÔNG có quyền mạng (không có com.apple.security.network.client): hệ điều hành chặn mọi kết nối ra
+        # ngoài. Kiểm tra: codesign -d --entitlements - FaceFinder.app
+        com.apple.security.app-sandbox: true
+        com.apple.security.files.user-selected.read-write: true
+        com.apple.security.files.bookmarks.app-scope: true
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: io.github.facefinder.FaceFinder
+        PRODUCT_NAME: Face Finder
+        SWIFT_VERSION: "6.0"
+        MACOSX_DEPLOYMENT_TARGET: "15.0"
+        ENABLE_HARDENED_RUNTIME: YES
+        # Ký ad-hoc: chưa có tài khoản Apple Developer (PLAN.md Giai đoạn 4)
+        CODE_SIGN_STYLE: Manual
+        CODE_SIGN_IDENTITY: "-"
+        DEVELOPMENT_TEAM: ""
+        COREML_CODEGEN_LANGUAGE: None
+        # Chỉ Apple Silicon: bộ máy dùng Float16 (không có trên Mac Intel). Hỗ trợ Intel: việc còn lại ở PLAN.md.
+        ARCHS: arm64
+        COMBINE_HIDPI_IMAGES: YES
+        GENERATE_INFOPLIST_FILE: NO
+        DEAD_CODE_STRIPPING: YES
+      configs:
+        Release:
+          # Ký ad-hoc thì Xcode tự chèn get-task-allow (cho phép gỡ lỗi) cả vào bản Release: tắt đi.
+          CODE_SIGN_INJECT_BASE_ENTITLEMENTS: NO

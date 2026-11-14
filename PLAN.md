@@ -3,8 +3,9 @@
 Mục tiêu: biến công cụ dòng lệnh `face-finder/` (findface) thành một app macOS có giao diện, giữ nguyên độ
 chính xác đã kiểm chứng (~99% / ~97% với ≥3 ảnh mẫu), **chạy hoàn toàn trên máy** và nhanh bằng hoặc hơn CLI.
 
-Trạng thái (14/11/2026): **Giai đoạn 0 và 1 đã xong, đạt mọi tiêu chí** (mục 5.0, 5.1): bộ máy Swift + Core ML cho
-kết quả trùng CLI trên bộ 1416 ảnh, nhanh hơn và dùng ít RAM hơn. Tiếp theo: Giai đoạn 2 (app SwiftUI).
+Trạng thái (14/11/2026): **Giai đoạn 0 và 1 xong, đạt mọi tiêu chí** (mục 5.0, 5.1). **Giai đoạn 2 có bản dùng thử**
+(`dist/FaceFinder-0.2.0.dmg`, mục 5.2): toàn luồng chạy đúng và nhanh như CLI; còn chờ thử bằng tay các bước xin quyền
+trong sandbox. Từ Giai đoạn 4 đã có: DMG, README hướng dẫn cài, kiểm tra entitlements khi đóng gói.
 
 **Đã chốt (14/11/2026):**
 - Phát hành mã nguồn mở và bản build trên GitHub (miễn phí, phi thương mại).
@@ -257,6 +258,41 @@ Ghi chú tốc độ: GPU trích vân mặt là nút cổ chai (đổi số lu�
 - App Sandbox không quyền mạng, security-scoped bookmark cho nguồn.
 
 **Tiêu chí qua:** làm lại được đúng việc "tìm ảnh có bé trong 7 file zip" từ đầu đến cuối chỉ bằng chuột.
+
+### 5.2 Kết quả Giai đoạn 2 (14/11/2026, Apple M1) — có bản dùng thử, còn chờ thử bằng tay trong sandbox
+
+Đã có: app SwiftUI `FaceFinder/` (project sinh từ `project.yml` bằng XcodeGen) gồm Thư viện (kéo thả thư mục/zip,
+lập chỉ mục có tiến độ, tạm dừng/tiếp tục/huỷ), Thêm người (kéo ảnh mẫu, app gom khuôn mặt theo người, đề xuất #1,
+bấm chọn người khác), Kết quả (lưới ảnh khuôn mặt theo nhóm, thanh trượt ngưỡng), thư mục kết quả theo mục 4.1 (ghi
+mặc định vào thư mục nguồn / thư mục chứa zip, xin quyền khi cần, tự cập nhật khi kéo ngưỡng, chuyển/sao chép sang
+chỗ khác, chỉ đụng file do app tạo, bỏ thì vào Thùng rác), Cài đặt (xoá dữ liệu khuôn mặt). App Sandbox không quyền
+mạng, security-scoped bookmark cho nguồn và thư mục được phép ghi. DMG: `tools/make_dmg.sh`.
+
+Tự kiểm tra toàn luồng (`tools/app_selftest.sh`: gọi đúng các hàm mà nút bấm gọi, chụp cửa sổ app ở từng bước) trên
+7 file zip, bản Release:
+
+| Kiểm tra | Kết quả |
+|---|---|
+| Lập chỉ mục 1416 ảnh | 313 giây, gồm ~5 giây thử tạm dừng (CLI Python 5m08s, `ffcli` 4m38s) |
+| Kết quả so với CLI | Khớp 58/58, Cần kiểm tra 5/5, lệch điểm lớn nhất 0,003 |
+| Ảnh mẫu | đề xuất đúng bé ở #1 (có mặt trong 8/8 ảnh mẫu), không mơ hồ |
+| Thư mục kết quả | 58 ảnh + `Cần kiểm tra/` 5 ảnh + `_báo cáo/ket_qua.csv` + `.facefinder` |
+| Kéo ngưỡng 0,55 rồi trả lại | thư mục tự cập nhật (chuyển nhóm 1 ảnh mỗi lần) |
+| Tạm dừng | không xử lý thêm ảnh nào trong lúc dừng |
+| Bản phát hành | chỉ 3 quyền (sandbox, file người dùng chọn, bookmark); không mạng, không quyền gỡ lỗi, không có SelfTest |
+
+Bài học:
+- **App Nap** làm lập chỉ mục chậm gần gấp đôi (505 giây) khi cửa sổ app không ở phía trước. Sửa bằng
+  `ProcessInfo.beginActivity(.userInitiated, .idleSystemSleepDisabled)` trong lúc lập chỉ mục (cũng giữ máy không ngủ).
+- Bản Debug không tối ưu thì giải mã/thu nhỏ ảnh chậm hàng chục lần: `FaceFinderKit` luôn biên dịch `-O`.
+- Xcode tự chèn `get-task-allow` vào bản Release khi ký ad-hoc: tắt `CODE_SIGN_INJECT_BASE_ENTITLEMENTS`;
+  `make_dmg.sh` kiểm tra lại trước khi đóng gói.
+
+**Chưa kiểm được (không có công cụ điều khiển chuột trong phiên phát triển):** bấm/kéo thả thật trong bản sandbox —
+hộp thoại xin quyền ghi vào thư mục chứa zip, quyền còn nhớ sau khi mở lại app, kéo thả từ Finder. Bài tự kiểm tra
+chạy bản không sandbox và coi như người dùng đã bấm "Cho phép". Đây là việc đầu tiên khi dùng thử.
+
+**Chưa làm:** hỗ trợ Mac Intel (bộ máy dùng `Float16`, không có trên x86_64; bản build hiện chỉ có arm64).
 
 ### Giai đoạn 3 — Trải nghiệm hoàn chỉnh (3–5 ngày)
 - Đánh dấu ✓/✗ và chấm lại tức thì; Quick Look; nhiều người đã lưu; lịch sử tìm kiếm.
