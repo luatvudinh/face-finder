@@ -1,5 +1,4 @@
-# CLI Python là repo riêng
-/face-finder/
+# CLI Python nằm trong face-finder/ (lịch sử gộp từ repo cũ); venv và model của nó bị bỏ qua bởi face-finder/.gitignore
 
 # Model (tự tải + chuyển bằng tools/convert_models.py) và dữ liệu sinh ra
 /models/
