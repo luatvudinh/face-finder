@@ -7,7 +7,7 @@
 set -euo pipefail
 cd "$(dirname "$0")/.."
 
-NAME_RE='^(golden|models|face-finder|dist)/|\.(mlpackage|mlmodelc)/|(^|/)Face Finder - [^/]*/|(^|/)_báo cáo/'
+NAME_RE='^(golden|models|dist|face-finder/models|face-finder/venv)/|\.(mlpackage|mlmodelc)/|(^|/)Face Finder - [^/]*/|(^|/)_báo cáo/'
 EXT_RE='\.(jpe?g|jpe|jfif|png|gif|heic|heif|avif|webp|tiff?|bmp|arw|srf|sr2|cr2|cr3|crw|nef|nrw|dng|raf|orf|rw2|raw|rwl|pef|srw|3fr|iiq|x3f|erf|mrw|mos|mov|mp4|m4v|zip|7z|rar|sqlite|sqlite3|db|pkl|npy|npz|csv|onnx|mlmodel)$'
 FIXTURES_RE='^FaceFinderKit/Tests/FaceFinderKitTests/Fixtures/'
 

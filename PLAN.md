@@ -74,11 +74,13 @@ face-finder-proj/
 
 Tách `FaceFinderKit` ra thành package giúp test và đo tốc độ bằng dòng lệnh, không cần mở giao diện.
 
-**Repo GitHub:** app là một repo public mới (đề xuất tên `face-finder-mac`) đặt ở gốc `face-finder-proj/`.
-Thư mục `face-finder/` vẫn là repo CLI riêng như hiện nay, được bỏ qua trong `.gitignore` của repo app; các
-script trong `tools/` gọi nó theo đường dẫn tương đối. Hai file model **không commit vào git**:
-`tools/convert_models.py` tự tải và chuyển đổi, còn bản build phát hành trên GitHub Releases đóng gói sẵn model.
-Giữ quy tắc của repo CLI: không commit ảnh, kết quả, chỉ mục, golden data hay thông tin máy cá nhân.
+**Repo GitHub (đã chốt 15/11/2026):** một repo duy nhất, dùng lại repo public của CLI
+[github.com/luatvudinh/face-finder](https://github.com/luatvudinh/face-finder): app ở gốc, CLI nằm trong `face-finder/`
+(gộp bằng `git subtree add`, giữ nguyên lịch sử commit của CLI; đẩy lên là fast-forward, không phải force-push). Các
+script trong `tools/` gọi CLI theo đường dẫn tương đối như cũ. Hai file model **không commit vào git**:
+`tools/fetch_models.sh` + `tools/convert_models.py` tự tải và chuyển đổi, bản build trên GitHub Releases đóng gói sẵn
+model. Giữ quy tắc của repo CLI: không commit ảnh, kết quả, chỉ mục, golden data hay thông tin máy cá nhân
+(`tools/check_repo_privacy.sh`, chạy trong CI).
 
 ### 2.4 Dữ liệu: "lập chỉ mục một lần, tìm nhiều người"
 

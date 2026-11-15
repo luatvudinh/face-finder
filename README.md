@@ -119,6 +119,14 @@ Cấu trúc:
 | `tools/` | Tải/chuyển model, xuất/so dữ liệu đối chiếu với CLI, đóng DMG, kiểm tra chặn mạng, tự kiểm tra app |
 | `.github/` | GitHub Actions: CI và phát hành |
 
+## Công cụ dòng lệnh `findface`
+
+Phiên bản dòng lệnh (Python) có trước app nằm trong [`face-finder/`](face-finder/), cùng thuật toán và độ chính xác;
+app dùng nó làm chuẩn đối chiếu. Cài và dùng: xem [face-finder/README.md](face-finder/README.md).
+
+Trước đây repo này chỉ chứa công cụ dòng lệnh ở thư mục gốc. Nếu đã clone từ trước: `git pull`, rồi chạy công cụ từ
+thư mục `face-finder/` (`cd face-finder && ./setup.sh`).
+
 ## Giấy phép
 
 Mã nguồn: MIT (xem `LICENSE`). Model nhận diện ArcFace của InsightFace **chỉ được dùng cho mục đích phi thương mại**,
