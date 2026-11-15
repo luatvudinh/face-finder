@@ -120,7 +120,7 @@ import Testing
         let index = try FaceIndex(url: url)
         let a = ImageItem(key: "/p/a.jpg", zipPath: nil, member: nil, name: "a.jpg", size: 10, mtime: .distantPast, stamp: "10:1")
         let b = ImageItem(key: "/p/b.jpg", zipPath: nil, member: nil, name: "b.jpg", size: 20, mtime: .distantPast, stamp: "20:1")
-        let emb = (0..<512).map { Float(Float16(Float($0) / 1000 - 0.25)) }
+        let emb = Half.round((0..<512).map { Float($0) / 1000 - 0.25 })
         let f = FaceRecord(x: 1.5, y: 2.5, width: 30, height: 40, landmarks: (0..<10).map(Float.init), detectionScore: 0.875, embedding: emb)
         try index.store([(a, [f, f]), (b, [])], signature: "s1")
 

@@ -19,6 +19,41 @@
 *.png
 *.heic
 *.HEIC
+*.heif
+*.avif
+*.webp
+*.gif
+*.tif
+*.tiff
+*.bmp
+# RAW máy ảnh
+*.arw
+*.srf
+*.sr2
+*.cr2
+*.cr3
+*.crw
+*.nef
+*.nrw
+*.dng
+*.raf
+*.orf
+*.rw2
+*.raw
+*.rwl
+*.pef
+*.srw
+*.3fr
+*.iiq
+*.x3f
+*.mov
+*.mp4
+*.mlmodel
+*.npy
+*.npz
+# Thư mục kết quả app ghi ra (nếu lỡ chọn thư mục nguồn nằm trong repo)
+Face Finder - */
+_báo cáo/
 *.sqlite
 *.sqlite-*
 

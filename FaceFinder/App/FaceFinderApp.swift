@@ -8,7 +8,12 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 @main
 struct FaceFinderApp: App {
     @NSApplicationDelegateAdaptor(AppDelegate.self) private var delegate
-    @State private var model = AppModel()
+    @State private var model: AppModel
+
+    init() {
+        UILanguage.applyAtLaunch()  // trước khi nạp bất kỳ chuỗi giao diện nào
+        _model = State(initialValue: AppModel())
+    }
 
     var body: some Scene {
         Window("Face Finder", id: "main") {

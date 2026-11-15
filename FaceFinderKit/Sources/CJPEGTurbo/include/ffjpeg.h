@@ -10,6 +10,8 @@
 #define FF_JPEG_ERROR 1
 /// JPEG hợp lệ nhưng thuộc loại lớp này không xử lý (CMYK/YCCK, 12/16 bit): để ImageIO đọc.
 #define FF_JPEG_UNSUPPORTED 2
+/// File bị cụt (thiếu dữ liệu ở cuối). Ảnh vẫn được giải mã phần có được, nhưng coi là hỏng như Pillow.
+#define FF_JPEG_TRUNCATED 3
 
 /// Kích thước ảnh sau khi giải mã ở tỉ lệ 1/scale_denom (scale_denom = 1, 2, 4 hoặc 8).
 int ff_jpeg_output_size(const unsigned char *data, size_t size, int scale_denom, int *width, int *height);

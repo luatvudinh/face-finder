@@ -3,6 +3,7 @@ import PackageDescription
 
 let package = Package(
     name: "FaceFinderKit",
+    defaultLocalization: "vi",
     platforms: [.macOS(.v15)],
     products: [
         .library(name: "FaceFinderKit", targets: ["FaceFinderKit"]),
@@ -56,6 +57,7 @@ let package = Package(
         ],
         // Luôn tối ưu, kể cả bản Debug chạy từ Xcode: không tối ưu thì giải mã/thu nhỏ ảnh chậm hơn hàng chục lần
         // và lập chỉ mục trông như bị treo. (unsafeFlags chỉ dùng được vì đây là package nội bộ của dự án.)
+        resources: [.process("Localizable.xcstrings")],
         swiftSettings: [.unsafeFlags(["-O"], .when(configuration: .debug))]),
         .executableTarget(name: "ffcli", dependencies: ["FaceFinderKit"]),
         .testTarget(name: "FaceFinderKitTests", dependencies: ["FaceFinderKit"], resources: [.copy("Fixtures")]),

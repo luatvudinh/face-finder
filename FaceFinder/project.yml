@@ -26,9 +26,10 @@ targets:
       path: App/Info.plist
       properties:
         CFBundleDisplayName: Face Finder
-        CFBundleShortVersionString: "0.2.0"
-        CFBundleVersion: "2"
+        CFBundleShortVersionString: "0.4.1"
+        CFBundleVersion: "9"
         CFBundleDevelopmentRegion: vi
+        CFBundleLocalizations: [vi, en]
         LSApplicationCategoryType: public.app-category.photography
         LSMinimumSystemVersion: "15.0"
         NSHumanReadableCopyright: "Mã nguồn MIT. Model ArcFace của InsightFace: chỉ dùng phi thương mại."
@@ -52,8 +53,9 @@ targets:
         CODE_SIGN_IDENTITY: "-"
         DEVELOPMENT_TEAM: ""
         COREML_CODEGEN_LANGUAGE: None
-        # Chỉ Apple Silicon: bộ máy dùng Float16 (không có trên Mac Intel). Hỗ trợ Intel: việc còn lại ở PLAN.md.
-        ARCHS: arm64
+        # Trình biên dịch tự trích chuỗi cần dịch (đúng kiểu %lld/%@) vào Localizable.xcstrings
+        SWIFT_EMIT_LOC_STRINGS: YES
+        LOCALIZATION_PREFERS_STRING_CATALOGS: YES
         COMBINE_HIDPI_IMAGES: YES
         GENERATE_INFOPLIST_FILE: NO
         DEAD_CODE_STRIPPING: YES

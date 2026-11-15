@@ -30,10 +30,29 @@ public struct ItemScore: Sendable {
     public let score: Float
     public let face: FaceRecord?
     public let faceCount: Int
+
+    public init(item: ImageItem, score: Float, face: FaceRecord?, faceCount: Int) {
+        self.item = item; self.score = score; self.face = face; self.faceCount = faceCount
+    }
 }
 
 public enum MatchStatus: String, Sendable {
     case matched = "Khớp", review = "Cần kiểm tra", none = "Không"
+    /// Người dùng đánh dấu ✗ (không phải người này).
+    case rejected = "Đã loại"
+}
+
+/// Đánh dấu của người dùng trên kết quả ("học thêm", PLAN.md mục 4): ảnh ✓ được thêm vào ảnh mẫu, ảnh ✗ bị loại.
+public struct SearchMarks: Sendable, Equatable {
+    /// Ảnh đã xác nhận đúng → vân mặt của khuôn mặt đã khớp trong ảnh đó (dùng làm mẫu bổ sung).
+    public var confirmed: [String: [Float]]
+    /// Ảnh đã đánh dấu sai.
+    public var rejected: Set<String>
+
+    public init(confirmed: [String: [Float]] = [:], rejected: Set<String> = []) {
+        self.confirmed = confirmed
+        self.rejected = rejected
+    }
 }
 
 public struct SearchOptions: Sendable {
@@ -56,18 +75,43 @@ public struct SearchResult: Sendable {
     public let reviewBase: Double
     /// Số khuôn mặt mẫu được bổ sung ở bước mở rộng.
     public let expandedBy: Int
+    /// Ảnh người dùng đã đánh dấu ✓ (luôn "Khớp") và ✗ (luôn "Đã loại").
+    public let confirmed: Set<String>
+    public let rejected: Set<String>
+
+    public init(scores: [ItemScore], threshold: Double, review: Double, reviewBase: Double, expandedBy: Int,
+                confirmed: Set<String> = [], rejected: Set<String> = []) {
+        self.scores = scores
+        self.threshold = threshold
+        self.review = review
+        self.reviewBase = reviewBase
+        self.expandedBy = expandedBy
+        self.confirmed = confirmed
+        self.rejected = rejected
+    }
 
     /// Cùng kết quả với ngưỡng khác: điểm không đổi, chỉ chia nhóm lại (thanh trượt ngưỡng trong app).
     /// Bước mở rộng dùng ngưỡng riêng (0.60) nên không phải chấm lại.
     public func with(threshold: Double) -> SearchResult {
-        SearchResult(scores: scores, threshold: threshold, review: min(threshold, reviewBase), reviewBase: reviewBase, expandedBy: expandedBy)
+        SearchResult(scores: scores, threshold: threshold, review: min(threshold, reviewBase), reviewBase: reviewBase,
+                     expandedBy: expandedBy, confirmed: confirmed, rejected: rejected)
     }
 
+    /// Nhóm theo điểm (không xét đánh dấu của người dùng).
     public func status(of score: Float) -> MatchStatus {
         Double(score) >= threshold ? .matched : Double(score) >= review ? .review : .none
     }
-    public var matched: [ItemScore] { scores.filter { Double($0.score) >= threshold } }
-    public var needsReview: [ItemScore] { scores.filter { Double($0.score) >= review && Double($0.score) < threshold } }
+
+    /// Nhóm của một ảnh: đánh dấu của người dùng thắng điểm số.
+    public func status(of s: ItemScore) -> MatchStatus {
+        if rejected.contains(s.item.key) { return .rejected }
+        if confirmed.contains(s.item.key) { return .matched }
+        return status(of: s.score)
+    }
+
+    public var matched: [ItemScore] { scores.filter { status(of: $0) == .matched } }
+    public var needsReview: [ItemScore] { scores.filter { status(of: $0) == .review } }
+    public var rejectedScores: [ItemScore] { scores.filter { status(of: $0) == .rejected } }
 }
 
 public enum ScorerError: Error, CustomStringConvertible {
@@ -75,7 +119,7 @@ public enum ScorerError: Error, CustomStringConvertible {
 
     public var description: String {
         switch self {
-        case .anchorNotFound(let name): return "'\(name)' không phải ảnh mẫu nào có khuôn mặt"
+        case .anchorNotFound(let name): return String(localized: "'\(name)' không phải ảnh mẫu nào có khuôn mặt", bundle: .module)
         }
     }
 }
@@ -264,14 +308,16 @@ public enum Scorer {
     }
 
     /// Như trên, với vân mặt mẫu đã lưu sẵn (người đã tạo trong app).
-    public static func search(embeddings base: [[Float]], items: [ImageItem], faces: [String: [FaceRecord]],
-                              options: SearchOptions = SearchOptions()) -> SearchResult {
+    public static func search(embeddings: [[Float]], items: [ImageItem], faces: [String: [FaceRecord]],
+                              options: SearchOptions = SearchOptions(), marks: SearchMarks = SearchMarks()) -> SearchResult {
+        // ảnh ✓: khuôn mặt đã khớp trong ảnh đó thành ảnh mẫu bổ sung (thứ tự cố định để kết quả lặp lại được)
+        let base = embeddings + marks.confirmed.keys.sorted().compactMap { marks.confirmed[$0] }
         var (scores, faceScores) = score(items, faces, target: centroid(base))
         var added = 0
         if options.expand {
             // sắp xếp ổn định theo điểm giảm dần, như sorted(key=-score) của Python
             let confident = scores.enumerated()
-                .filter { Double($0.element.score) >= options.expandThreshold }
+                .filter { Double($0.element.score) >= options.expandThreshold && !marks.rejected.contains($0.element.item.key) }
                 .sorted { $0.element.score != $1.element.score ? $0.element.score > $1.element.score : $0.offset < $1.offset }
                 .prefix(options.expandLimit)
                 .compactMap { $0.element.face?.embedding }
@@ -285,6 +331,7 @@ public enum Scorer {
         let sorted = scores.enumerated()
             .sorted { $0.element.score != $1.element.score ? $0.element.score > $1.element.score : $0.offset < $1.offset }
             .map(\.element)
-        return SearchResult(scores: sorted, threshold: options.threshold, review: review, reviewBase: reviewBase, expandedBy: added)
+        return SearchResult(scores: sorted, threshold: options.threshold, review: review, reviewBase: reviewBase, expandedBy: added,
+                            confirmed: Set(marks.confirmed.keys), rejected: marks.rejected)
     }
 }

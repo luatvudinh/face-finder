@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0680BE5F6FB15760FB90192D /* FolderWatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 108A4D00AD54DF10997FF86B /* FolderWatcher.swift */; };
+		0A767A0A56F491D9626E75EB /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 09BCB36CFC7A06EE724956BC /* Localizable.xcstrings */; };
+		1E62240E49F897C7CA37905F /* InfoPlist.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 431D3605AEED8A5A83BAA425 /* InfoPlist.xcstrings */; };
+		47E31938C1C819395AAC4D7D /* Language.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FC6743DD84EEF528D511878 /* Language.swift */; };
 		49B92E73104BCFFBBE48D06C /* YuNet.mlpackage in Sources */ = {isa = PBXBuildFile; fileRef = 0DE8B716C7C9F5EEB5002039 /* YuNet.mlpackage */; };
 		54402A23ADADD22938FD256A /* ThumbnailLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48A82E0F8AD683AF8D4967C7 /* ThumbnailLoader.swift */; };
 		576A592B550F736E7F9CEC7C /* PersonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C77CD0E960849B9F8704F80A /* PersonView.swift */; };
@@ -14,6 +18,7 @@
 		9CD87F5488611402ED290062 /* AccessStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 053F8C39A68E5C8C066CC128 /* AccessStore.swift */; };
 		9D6E1D947EE2DAC216AD8A86 /* PersonSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFA900E396C529A767575287 /* PersonSession.swift */; };
 		9EB4AB7D80C4310EBECF2A77 /* ArcFaceR50.mlpackage in Sources */ = {isa = PBXBuildFile; fileRef = 8464F0819009A5257BE58762 /* ArcFaceR50.mlpackage */; };
+		A08CC01DB2E4FBD8CDF8BBA5 /* PreviewFiles.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD9690B5D5C7D31CD3337F7D /* PreviewFiles.swift */; };
 		A330DEFFA494E101FCE39A3D /* FaceFinderKit in Frameworks */ = {isa = PBXBuildFile; productRef = 8BDDC754DE7BFBB99BF233A8 /* FaceFinderKit */; };
 		A3A0DF221FC464290D7BAF62 /* LibraryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B39B5896965672CE967E9AEC /* LibraryView.swift */; };
 		AA5484B6D04EECB5A82B8B38 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85335513BB0FD81DB139ADB0 /* SettingsView.swift */; };
@@ -26,10 +31,14 @@
 
 /* Begin PBXFileReference section */
 		053F8C39A68E5C8C066CC128 /* AccessStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessStore.swift; sourceTree = "<group>"; };
+		09BCB36CFC7A06EE724956BC /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		0DE8B716C7C9F5EEB5002039 /* YuNet.mlpackage */ = {isa = PBXFileReference; path = YuNet.mlpackage; sourceTree = "<group>"; };
 		0FCEC36D05650830E08EB506 /* FaceFinderApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaceFinderApp.swift; sourceTree = "<group>"; };
+		108A4D00AD54DF10997FF86B /* FolderWatcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FolderWatcher.swift; sourceTree = "<group>"; };
 		203D345D4FB790AB5CFBD7D0 /* AppModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppModel.swift; sourceTree = "<group>"; };
+		431D3605AEED8A5A83BAA425 /* InfoPlist.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = InfoPlist.xcstrings; sourceTree = "<group>"; };
 		48A82E0F8AD683AF8D4967C7 /* ThumbnailLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThumbnailLoader.swift; sourceTree = "<group>"; };
+		4FC6743DD84EEF528D511878 /* Language.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Language.swift; sourceTree = "<group>"; };
 		5FAB0071B985ECF16AD9F78D /* FaceFinder.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = FaceFinder.entitlements; sourceTree = "<group>"; };
 		7BD94A7CEB22E4B7C4B17F58 /* FaceFinderKit */ = {isa = PBXFileReference; lastKnownFileType = folder; name = FaceFinderKit; path = ../FaceFinderKit; sourceTree = SOURCE_ROOT; };
 		81227228DB099F456FE35206 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -39,6 +48,7 @@
 		B39B5896965672CE967E9AEC /* LibraryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryView.swift; sourceTree = "<group>"; };
 		B8A08CF1347C3330A7E60A51 /* FaceFinder-NoSandbox.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "FaceFinder-NoSandbox.entitlements"; sourceTree = "<group>"; };
 		C77CD0E960849B9F8704F80A /* PersonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonView.swift; sourceTree = "<group>"; };
+		CD9690B5D5C7D31CD3337F7D /* PreviewFiles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewFiles.swift; sourceTree = "<group>"; };
 		CEDA9BB2442EDEC6AD8BD1F4 /* FaceFinder.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FaceFinder.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D724871AA25608786AC7C06B /* NewPersonModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPersonModel.swift; sourceTree = "<group>"; };
 		D9534103DC7E13837FFEF82E /* SelfTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelfTest.swift; sourceTree = "<group>"; };
@@ -75,12 +85,17 @@
 				B8A08CF1347C3330A7E60A51 /* FaceFinder-NoSandbox.entitlements */,
 				5FAB0071B985ECF16AD9F78D /* FaceFinder.entitlements */,
 				0FCEC36D05650830E08EB506 /* FaceFinderApp.swift */,
+				108A4D00AD54DF10997FF86B /* FolderWatcher.swift */,
 				8841C6B1B86639C1D58CB93A /* Info.plist */,
+				431D3605AEED8A5A83BAA425 /* InfoPlist.xcstrings */,
+				4FC6743DD84EEF528D511878 /* Language.swift */,
 				B39B5896965672CE967E9AEC /* LibraryView.swift */,
+				09BCB36CFC7A06EE724956BC /* Localizable.xcstrings */,
 				D724871AA25608786AC7C06B /* NewPersonModel.swift */,
 				E8269822015AC12DC38C18CE /* NewPersonSheet.swift */,
 				DFA900E396C529A767575287 /* PersonSession.swift */,
 				C77CD0E960849B9F8704F80A /* PersonView.swift */,
+				CD9690B5D5C7D31CD3337F7D /* PreviewFiles.swift */,
 				D9534103DC7E13837FFEF82E /* SelfTest.swift */,
 				85335513BB0FD81DB139ADB0 /* SettingsView.swift */,
 				48A82E0F8AD683AF8D4967C7 /* ThumbnailLoader.swift */,
@@ -124,6 +139,7 @@
 			buildConfigurationList = 2DB518E591DB3E7A09309AC2 /* Build configuration list for PBXNativeTarget "FaceFinder" */;
 			buildPhases = (
 				75A4C5B5DD708183CF248613 /* Sources */,
+				AAD5AE6186FE6079C60BC3EA /* Resources */,
 				919B57D194380775D35872D3 /* Frameworks */,
 			);
 			buildRules = (
@@ -158,6 +174,7 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				Base,
+				en,
 				vi,
 			);
 			mainGroup = 61B622FE8CDE5257047BE66C;
@@ -175,6 +192,18 @@
 		};
 /* End PBXProject section */
 
+/* Begin PBXResourcesBuildPhase section */
+		AAD5AE6186FE6079C60BC3EA /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1E62240E49F897C7CA37905F /* InfoPlist.xcstrings in Resources */,
+				0A767A0A56F491D9626E75EB /* Localizable.xcstrings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		75A4C5B5DD708183CF248613 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -185,11 +214,14 @@
 				9EB4AB7D80C4310EBECF2A77 /* ArcFaceR50.mlpackage in Sources */,
 				D250F7B7FEFC1C686427CD5A /* ContentView.swift in Sources */,
 				E299CCE861AC9B56CB7BFB54 /* FaceFinderApp.swift in Sources */,
+				0680BE5F6FB15760FB90192D /* FolderWatcher.swift in Sources */,
+				47E31938C1C819395AAC4D7D /* Language.swift in Sources */,
 				A3A0DF221FC464290D7BAF62 /* LibraryView.swift in Sources */,
 				DCFD9B17349B9D500B3E11E2 /* NewPersonModel.swift in Sources */,
 				8BE356B1C48E947C89BBE330 /* NewPersonSheet.swift in Sources */,
 				9D6E1D947EE2DAC216AD8A86 /* PersonSession.swift in Sources */,
 				576A592B550F736E7F9CEC7C /* PersonView.swift in Sources */,
+				A08CC01DB2E4FBD8CDF8BBA5 /* PreviewFiles.swift in Sources */,
 				C8524B55B648EF362D2BA5A2 /* SelfTest.swift in Sources */,
 				AA5484B6D04EECB5A82B8B38 /* SettingsView.swift in Sources */,
 				54402A23ADADD22938FD256A /* ThumbnailLoader.swift in Sources */,
@@ -259,7 +291,6 @@
 		B79928D2D481919622489103 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = arm64;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = App/FaceFinder.entitlements;
 				CODE_SIGN_IDENTITY = "-";
@@ -275,10 +306,12 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MACOSX_DEPLOYMENT_TARGET = 15.0;
 				PRODUCT_BUNDLE_IDENTIFIER = io.github.facefinder.FaceFinder;
 				PRODUCT_NAME = "Face Finder";
 				SDKROOT = macosx;
+				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 6.0;
 			};
 			name = Debug;
@@ -286,7 +319,6 @@
 		D493AE017112AA56B5B968F3 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = arm64;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = App/FaceFinder.entitlements;
 				CODE_SIGN_IDENTITY = "-";
@@ -303,10 +335,12 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MACOSX_DEPLOYMENT_TARGET = 15.0;
 				PRODUCT_BUNDLE_IDENTIFIER = io.github.facefinder.FaceFinder;
 				PRODUCT_NAME = "Face Finder";
 				SDKROOT = macosx;
+				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 6.0;
 			};
 			name = Release;

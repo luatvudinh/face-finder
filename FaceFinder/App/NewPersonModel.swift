@@ -35,9 +35,9 @@ struct IdentityPreview: Identifiable, Sendable {
         panel.canChooseFiles = true
         panel.canChooseDirectories = true
         panel.allowsMultipleSelection = true
-        panel.allowedContentTypes = [.image, .zip]
-        panel.message = "Chọn vài ảnh rõ mặt của người cần tìm (càng nhiều góc mặt càng tốt; nên có ít nhất 3 ảnh)."
-        panel.prompt = "Dùng làm ảnh mẫu"
+        panel.allowedContentTypes = [.folder, .image, .zip]  // thiếu .folder thì không chọn được thư mục ảnh mẫu
+        panel.message = String(localized: "Chọn vài ảnh rõ mặt của người cần tìm (càng nhiều góc mặt càng tốt; nên có ít nhất 3 ảnh).")
+        panel.prompt = String(localized: "Dùng làm ảnh mẫu")
         guard panel.runModal() == .OK else { return }
         add(panel.urls, model: model)
     }
@@ -57,7 +57,7 @@ struct IdentityPreview: Identifiable, Sendable {
 
     private func analyze(_ model: AppModel) {
         guard !referenceURLs.isEmpty else { return }
-        phase = .analyzing("Đang tìm khuôn mặt trong ảnh mẫu…")
+        phase = .analyzing(String(localized: "Đang tìm khuôn mặt trong ảnh mẫu…"))
         let paths = referenceURLs.map { ImageSource.absolutePath($0.path) }, index = model.index
         Task {
             do {
@@ -69,7 +69,7 @@ struct IdentityPreview: Identifiable, Sendable {
                 noFace = built.noFace
                 ambiguous = built.ambiguous
                 chosen = 0
-                phase = built.identities.isEmpty ? .failed("Không thấy khuôn mặt nào trong ảnh mẫu.") : .ready
+                phase = built.identities.isEmpty ? .failed(String(localized: "Không thấy khuôn mặt nào trong ảnh mẫu.")) : .ready
             } catch {
                 phase = .failed("\(error)")
             }
@@ -106,22 +106,23 @@ struct IdentityPreview: Identifiable, Sendable {
     func create(_ model: AppModel) -> PersonRecord? {
         guard canCreate else { return nil }
         guard let base = outputBase ?? model.defaultOutputBase else {
-            model.alert = AlertMessage(title: "Chưa có nguồn ảnh", message: "Thêm thư mục ảnh hoặc file zip vào Thư viện trước.")
+            model.alert = AlertMessage(title: String(localized: "Chưa có nguồn ảnh"), message: String(localized: "Thêm thư mục ảnh hoặc file zip vào Thư viện trước."))
             return nil
         }
-        guard let writable = model.ensureWritable(base, reason: "Face Finder lưu kết quả vào thư mục này (thư mục con “\(ResultFolder.folderName(for: name))”). Bấm “Cho phép” để đồng ý.") else {
+        guard let writable = model.ensureWritable(base, reason: String(localized: "Face Finder lưu kết quả vào thư mục này (thư mục con “\(ResultFolder.folderName(for: name))”). Bấm “Cho phép” để đồng ý.")) else {
             return nil
         }
         let personName = name.trimmingCharacters(in: .whitespaces)
         do {
             var person = try model.index.addPerson(name: personName, references: identities[chosen].references,
                                                    threshold: SearchOptions().threshold, outputFolder: nil)
-            person.outputFolder = ResultFolder.choose(in: writable, personName: personName, personID: person.uuid).path
+            person.outputFolder = ResultFolder.choose(in: writable, personName: personName, personID: person.uuid,
+                                                      reserved: model.reservedOutputFolders(except: person.id)).path
             try model.index.updatePerson(person)
             model.reloadPeople()
             return person
         } catch {
-            model.alert = AlertMessage(title: "Không tạo được người", message: "\(error)")
+            model.alert = AlertMessage(title: String(localized: "Không tạo được người"), message: "\(error)")
             return nil
         }
     }

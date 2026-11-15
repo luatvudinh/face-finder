@@ -2,15 +2,19 @@ import CJPEGTurbo
 import CoreGraphics
 import Foundation
 import ImageIO
+import UniformTypeIdentifiers
 
 public enum ImageLoaderError: Error, CustomStringConvertible {
     case notAnImage
     case decodeFailed
+    case truncated
 
     public var description: String {
         switch self {
-        case .notAnImage: return "không phải file ảnh đọc được"
-        case .decodeFailed: return "giải mã ảnh thất bại"
+        case .notAnImage: return String(localized: "Không phải file ảnh, hoặc định dạng app chưa đọc được", bundle: .module)
+        case .decodeFailed: return String(localized: "Ảnh bị hỏng, không giải mã được", bundle: .module)
+        case .truncated:
+            return String(localized: "Ảnh bị hỏng: file thiếu dữ liệu ở cuối (có thể tải về chưa xong)", bundle: .module)
         }
     }
 }
@@ -41,6 +45,9 @@ public enum ImageLoader {
         else { throw ImageLoaderError.notAnImage }
         let longSide = max(w, h)
         let orientation = props[kCGImagePropertyOrientation] as? Int ?? 1
+        if let type = CGImageSourceGetType(src).flatMap({ UTType($0 as String) }), type.conforms(to: .rawImage) {
+            return try loadRAW(src, longSide: longSide, maxSide: maxSide)
+        }
         // Nhận JPEG theo 3 byte đầu như Pillow, không theo loại ImageIO báo (file MPO được ImageIO gọi là
         // "public.mpo-image" nhưng ảnh chính bên trong vẫn là JPEG).
         let isJPEG = data.count > 3 && data.prefix(3).elementsEqual([0xFF, 0xD8, 0xFF])
@@ -64,8 +71,15 @@ public enum ImageLoader {
             let ratio = min(w / max(1, Int(Double(w) * s)), h / max(1, Int(Double(h) * s)))
             factor = ratio >= 8 ? 8 : ratio >= 4 ? 4 : ratio >= 2 ? 2 : 1
         }
-        var decoded = isJPEG && jpeg == .turbo ? decodeWithTurbo(data, factor: factor) : nil
-        if decoded == nil {  // không phải JPEG, hoặc loại JPEG mà lớp bọc không xử lý (CMYK, 12 bit), hoặc file hỏng
+        var decoded: BGRAImage?
+        if isJPEG, jpeg == .turbo {
+            switch decodeWithTurbo(data, factor: factor) {
+            case .success(let image): decoded = image
+            case .failure(let error): throw error  // Pillow cũng báo lỗi: giữ kết quả giống CLI
+            case nil: break                        // loại JPEG lớp bọc không xử lý (CMYK, 12 bit): để ImageIO đọc
+            }
+        }
+        if decoded == nil {  // không phải JPEG, hoặc JPEG loại đặc biệt
             var options: [CFString: Any] = [kCGImageSourceShouldCacheImmediately: true]
             if factor > 1 { options[kCGImageSourceSubsampleFactor] = factor }
             guard let cg = CGImageSourceCreateImageAtIndex(src, 0, options as CFDictionary) else { throw ImageLoaderError.decodeFailed }
@@ -76,21 +90,46 @@ public enum ImageLoader {
         return (image, Double(max(image.width, image.height)) / Double(longSide))
     }
 
-    /// Giải mã JPEG bằng libjpeg-turbo ở tỉ lệ 1/`factor`. Trả về `nil` nếu không giải mã được.
-    static func decodeWithTurbo(_ data: Data, factor: Int) -> BGRAImage? {
-        data.withUnsafeBytes { raw -> BGRAImage? in
-            guard let bytes = raw.bindMemory(to: UInt8.self).baseAddress else { return nil }
+    /// Giải mã JPEG bằng libjpeg-turbo ở tỉ lệ 1/`factor`. `nil` = JPEG loại lớp bọc không xử lý (để ImageIO đọc).
+    static func decodeWithTurbo(_ data: Data, factor: Int) -> Result<BGRAImage, ImageLoaderError>? {
+        data.withUnsafeBytes { raw -> Result<BGRAImage, ImageLoaderError>? in
+            guard let bytes = raw.bindMemory(to: UInt8.self).baseAddress else { return .failure(.decodeFailed) }
             var w: Int32 = 0, h: Int32 = 0
-            guard ff_jpeg_output_size(bytes, raw.count, Int32(factor), &w, &h) == FF_JPEG_OK, w > 0, h > 0 else { return nil }
+            let rc = ff_jpeg_output_size(bytes, raw.count, Int32(factor), &w, &h)
+            if rc == FF_JPEG_UNSUPPORTED { return nil }
+            guard rc == FF_JPEG_OK, w > 0, h > 0 else { return .failure(.decodeFailed) }
             let count = Int(w) * Int(h) * 4
-            var ok = false
+            var status: Int32 = FF_JPEG_ERROR
             let pixels = [UInt8](unsafeUninitializedCapacity: count) { buffer, initialized in
-                ok = ff_jpeg_decode_bgra(bytes, raw.count, Int32(factor), buffer.baseAddress, count) == FF_JPEG_OK
-                if !ok { buffer.initialize(repeating: 0) }
+                status = ff_jpeg_decode_bgra(bytes, raw.count, Int32(factor), buffer.baseAddress, count)
+                if status != FF_JPEG_OK { buffer.initialize(repeating: 0) }
                 initialized = count
             }
-            return ok ? BGRAImage(width: Int(w), height: Int(h), bytesPerRow: Int(w) * 4, data: pixels) : nil
+            switch status {
+            case FF_JPEG_OK: return .success(BGRAImage(width: Int(w), height: Int(h), bytesPerRow: Int(w) * 4, data: pixels))
+            case FF_JPEG_TRUNCATED: return .failure(.truncated)
+            case FF_JPEG_UNSUPPORTED: return nil
+            default: return .failure(.decodeFailed)
+            }
         }
+    }
+
+    /// Ảnh RAW: dùng ảnh xem trước nhúng sẵn trong file nếu đủ lớn (nhanh), không thì để ImageIO xử lý RAW đầy đủ.
+    /// (CLI Python không đọc RAW nên ở đây không cần trùng từng pixel.)
+    static func loadRAW(_ src: CGImageSource, longSide: Int, maxSide: Int) throws -> (image: BGRAImage, scale: Double) {
+        let target = min(maxSide, longSide)
+        func thumbnail(always: Bool) -> CGImage? {
+            let options: [CFString: Any] = [
+                always ? kCGImageSourceCreateThumbnailFromImageAlways : kCGImageSourceCreateThumbnailFromImageIfAbsent: true,
+                kCGImageSourceCreateThumbnailWithTransform: true,
+                kCGImageSourceThumbnailMaxPixelSize: target,
+            ]
+            return CGImageSourceCreateThumbnailAtIndex(src, 0, options as CFDictionary)
+        }
+        var cg = thumbnail(always: false)
+        if let c = cg, max(c.width, c.height) < min(1600, target) { cg = nil }  // ảnh xem trước quá nhỏ
+        guard let cg = cg ?? thumbnail(always: true), let image = BGRAImage(cgImage: cg) else { throw ImageLoaderError.decodeFailed }
+        return (image, Double(max(image.width, image.height)) / Double(longSide))
     }
 
     /// Pillow có coi file JPEG này là "MPO" không (`JpegImagePlugin.jpeg_factory`): có khối APP2 "MPF" khai báo nhiều

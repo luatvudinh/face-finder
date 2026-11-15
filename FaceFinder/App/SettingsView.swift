@@ -4,13 +4,26 @@ import SwiftUI
 struct SettingsView: View {
     @Environment(AppModel.self) private var model
     @State private var confirmClear = false
+    @State private var language = UILanguage.current
 
     var body: some View {
         Form {
+            Section("Giao diện") {
+                Picker("Ngôn ngữ giao diện", selection: Binding(get: { language }, set: { language = $0; UILanguage.apply($0) })) {
+                    ForEach(UILanguage.allCases) { Text(verbatim: $0.nativeName).tag($0) }
+                }
+                if language.rawValue != UILanguage.active, language != .system {
+                    HStack {
+                        Text("Ngôn ngữ mới có hiệu lực khi mở lại app.").font(.caption).foregroundStyle(.secondary)
+                        Spacer()
+                        Button("Mở lại app") { UILanguage.relaunch() }
+                    }
+                }
+            }
             Section("Dữ liệu khuôn mặt") {
                 LabeledContent("Chỉ mục") {
-                    Text("\(model.totalStats.indexed.formatted()) ảnh · \(model.totalStats.faces.formatted()) khuôn mặt · "
-                         + ByteCountFormatter.string(fromByteCount: model.index.fileSize(), countStyle: .file))
+                    let size = ByteCountFormatter.string(fromByteCount: model.index.fileSize(), countStyle: .file)
+                    Text(String(localized: "\(model.totalStats.indexed.formatted()) ảnh · \(model.totalStats.faces.formatted()) khuôn mặt · \(size)"))
                 }
                 LabeledContent("Người đã lưu") { Text("\(model.people.count)") }
                 Button("Xoá toàn bộ dữ liệu khuôn mặt…", role: .destructive) { confirmClear = true }

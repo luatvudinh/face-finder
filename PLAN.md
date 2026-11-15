@@ -3,9 +3,10 @@
 Mục tiêu: biến công cụ dòng lệnh `face-finder/` (findface) thành một app macOS có giao diện, giữ nguyên độ
 chính xác đã kiểm chứng (~99% / ~97% với ≥3 ảnh mẫu), **chạy hoàn toàn trên máy** và nhanh bằng hoặc hơn CLI.
 
-Trạng thái (14/11/2026): **Giai đoạn 0 và 1 xong, đạt mọi tiêu chí** (mục 5.0, 5.1). **Giai đoạn 2 có bản dùng thử**
-(`dist/FaceFinder-0.2.0.dmg`, mục 5.2): toàn luồng chạy đúng và nhanh như CLI; còn chờ thử bằng tay các bước xin quyền
-trong sandbox. Từ Giai đoạn 4 đã có: DMG, README hướng dẫn cài, kiểm tra entitlements khi đóng gói.
+Trạng thái (15/11/2026): **Giai đoạn 0–2 xong** (mục 5.0–5.2; bản dùng thử 0.2 đã được thử bằng tay, ổn).
+**Giai đoạn 3 xong** (mục 5.3). **Giai đoạn 4: phần trong repo xong** (mục 5.4): CI, quy trình phát hành, chuẩn bị
+notarize, sửa lỗi bộ nhớ GPU; bản 0.4.1 `dist/FaceFinder-0.4.1.dmg`. Còn lại: tạo repo GitHub, đẩy code, chạy CI lần đầu,
+đẩy tag phát hành; notarize khi có tài khoản Apple Developer.
 
 **Đã chốt (14/11/2026):**
 - Phát hành mã nguồn mở và bản build trên GitHub (miễn phí, phi thương mại).
@@ -259,7 +260,7 @@ Ghi chú tốc độ: GPU trích vân mặt là nút cổ chai (đổi số lu�
 
 **Tiêu chí qua:** làm lại được đúng việc "tìm ảnh có bé trong 7 file zip" từ đầu đến cuối chỉ bằng chuột.
 
-### 5.2 Kết quả Giai đoạn 2 (14/11/2026, Apple M1) — có bản dùng thử, còn chờ thử bằng tay trong sandbox
+### 5.2 Kết quả Giai đoạn 2 (14/11/2026, Apple M1) — ĐẠT (người dùng đã thử bằng tay trong sandbox, ổn)
 
 Đã có: app SwiftUI `FaceFinder/` (project sinh từ `project.yml` bằng XcodeGen) gồm Thư viện (kéo thả thư mục/zip,
 lập chỉ mục có tiến độ, tạm dừng/tiếp tục/huỷ), Thêm người (kéo ảnh mẫu, app gom khuôn mặt theo người, đề xuất #1,
@@ -292,13 +293,45 @@ Bài học:
 hộp thoại xin quyền ghi vào thư mục chứa zip, quyền còn nhớ sau khi mở lại app, kéo thả từ Finder. Bài tự kiểm tra
 chạy bản không sandbox và coi như người dùng đã bấm "Cho phép". Đây là việc đầu tiên khi dùng thử.
 
-**Chưa làm:** hỗ trợ Mac Intel (bộ máy dùng `Float16`, không có trên x86_64; bản build hiện chỉ có arm64).
+**Chưa làm (lúc đó):** hỗ trợ Mac Intel — đã làm ở Giai đoạn 3.
 
 ### Giai đoạn 3 — Trải nghiệm hoàn chỉnh (3–5 ngày)
 - Đánh dấu ✓/✗ và chấm lại tức thì; Quick Look; nhiều người đã lưu; lịch sử tìm kiếm.
 - Tự nhận ra file mới trong nguồn đã thêm (quét bổ sung).
 - Hỗ trợ ảnh RAW/HEIC đầy đủ, xử lý ảnh hỏng, zip có mật khẩu (báo lỗi rõ ràng).
 - Giao diện tiếng Việt (mặc định) + tiếng Anh.
+
+### 5.3 Kết quả Giai đoạn 3 (15/11/2026)
+
+| Mục | Đã làm |
+|---|---|
+| Đánh dấu ✓/✗, chấm lại tức thì | Nút khi rê chuột, menu chuột phải, phím **D/Y** (đúng) **S/N** (sai), **Delete** bỏ đánh dấu. Ảnh ✓ luôn "Khớp" và khuôn mặt khớp của nó thành mẫu bổ sung; ảnh ✗ vào nhóm "Đã loại", không dùng để mở rộng, bị bỏ khỏi thư mục kết quả. Chấm lại trên ảnh chụp thư viện trong bộ nhớ (không đọc lại ổ đĩa). Lưu trong `people.marks` |
+| Chọn nhiều, thu gọn nhóm | Cmd+bấm (thêm/bớt), Shift+bấm / Shift+mũi tên (chọn dải), Cmd+A; D/S/Delete, nút ✓/✗ và menu áp dụng cho cả loạt; thanh thao tác ở đáy khi chọn ≥ 2 ảnh. Esc / bấm chỗ trống bỏ chọn. Bấm tiêu đề nhóm để thu gọn/mở rộng (nhớ giữa các lần mở app; phím mũi tên bỏ qua nhóm thu gọn). Ô ảnh làm lại theo phản hồi: thanh ✓/✗ ở mép dưới, vòng chọn mảnh, chấm màu trạng thái, ảnh đã loại mờ nhưng giữ màu |
+| Quick Look, bàn phím | **Space** xem ảnh lớn (ảnh trong zip được giải nén ra file tạm), phím mũi tên đi giữa các ảnh theo đúng hàng của lưới, giữ phím thì chạy liên tục |
+| Nhiều người, lịch sử tìm | Bảng `searches` (50 lần gần nhất mỗi người), hiện trong màn hình kết quả |
+| Quét bổ sung | Theo dõi thư mục nguồn bằng FSEvents (bỏ qua thay đổi trong thư mục kết quả của app), quét lại khi quay lại app (>60 giây) và khi cắm ổ đĩa, nút "Quét lại". Thư viện không đổi thì không tìm lại/ghi lại (so dấu vân của thư viện). Dọn dữ liệu của ảnh đã xoá và nguồn đã bỏ |
+| Ảnh RAW/HEIC, ảnh hỏng, zip có mật khẩu | RAW (ARW, CR2/CR3, NEF, DNG, RAF, ORF, RW2…) đọc ảnh xem trước nhúng sẵn qua ImageIO; RAW có JPEG/HEIC cùng tên thì chỉ dùng bản JPEG/HEIC. JPEG cụt/hỏng báo lỗi như Pillow; ảnh hỏng được ghi vào chỉ mục (không thử lại tới khi file đổi) và liệt kê trong Thư viện kèm lý do. Zip có mật khẩu: tự đọc thư mục trung tâm của zip để đếm và báo rõ (ZIPFoundation lặng lẽ bỏ qua) |
+| Tiếng Việt + tiếng Anh | String Catalog cho app và bộ máy (177 chuỗi), có biến thể số ít/số nhiều. Mặc định tiếng Việt kể cả khi macOS đặt tiếng Anh trước; đổi trong Cài đặt → Ngôn ngữ giao diện. Tên thư mục/CSV ghi ra đĩa luôn là tiếng Việt (giống CLI) |
+| Mac Intel | Bỏ kiểu `Float16` của Swift (không có trên x86_64), dùng vImage — làm tròn giống hệt (kiểm trên 20.000 giá trị). DMG universal. **Chưa chạy thử trên máy Intel** (máy phát triển không có Rosetta) |
+
+Cách làm: tự viết các tính năng, rồi dùng workflow nhiều agent cho phần lặp lại/kiểm tra chéo:
+chuyển chuỗi sang dạng dịch được (10 agent + 10 agent kiểm tra lại từng file), dịch (4 agent + 1 agent soát thuật ngữ),
+**soát lỗi** (6 agent theo 6 khía cạnh + 2 agent phản biện mỗi phát hiện): 23 phát hiện, 19 được cả hai bên phản biện
+xác nhận. Đã sửa hết, đáng kể nhất:
+- Huỷ lập chỉ mục không dừng các luồng phân tích (AsyncStream kết thúc lặng lẽ khi bị huỷ).
+- Ghi thư mục kết quả lỗi giữa chừng (ảnh gốc mất, ổ mạng không có Thùng rác) làm app quên các file đã chép → lần sau
+  chép trùng. Giờ lỗi từng file không dừng cả lượt, danh sách file luôn được lưu.
+- Chuyển thư mục kết quả trong lúc đang ghi làm thư mục cũ bị tạo lại (không có file đánh dấu). Giờ khoá thao tác này khi
+  đang ghi, và việc ghi tự dừng nếu thư mục biến mất.
+- Kết quả tạm thời rỗng (vừa mở app, ổ đĩa rút ra) có thể đưa toàn bộ ảnh kết quả vào Thùng rác — tìm ra khi viết lại,
+  trước khi soát: chỉ bỏ file khi ảnh gốc còn trong thư viện và được chấm là không khớp.
+- Quyền truy cập ổ đĩa cắm sau khi mở app không được mở lại; bookmark lỗi thời không được làm mới.
+- Hai người trùng tên tạo liền nhau dùng chung thư mục kết quả; xoá nguồn dùng `LIKE` sai với tên có `%`, `_`.
+
+Kiểm tra: 42 test của bộ máy; tự kiểm tra toàn luồng bằng bản Release cả tiếng Việt và tiếng Anh (thêm bước ✓/✗, Quick
+Look, quét lại khi không đổi): kết quả vẫn 58 khớp / 5 cần kiểm tra như CLI. Chỉ mục cũ (lược đồ v2) nâng cấp lên v3 được.
+Tốc độ lập chỉ mục chưa đo lại được (lúc đo có máy ảo khác chiếm ~450% CPU); phần code trên đường xử lý chính chỉ đổi
+cách làm tròn Float16 và cách huỷ, số đo tham khảo vẫn là 313 giây ở mục 5.2.
 
 ### Giai đoạn 4 — Phát hành trên GitHub (1–2 ngày)
 - Đóng DMG, đưa lên GitHub Releases; README hướng dẫn cài; GitHub Actions build và chạy test ở mỗi commit.
@@ -308,6 +341,64 @@ chạy bản không sandbox và coi như người dùng đã bấm "Cho phép". 
 - **Khi có tài khoản Apple Developer:** ký bằng Developer ID, notarize, staple; thêm bước này vào GitHub Actions.
   Không phải sửa gì trong code.
 - Kiểm tra lần cuối: entitlements không có mạng, test chặn mạng, đo hiệu năng ghi vào README.
+
+### 5.4 Kết quả Giai đoạn 4 (15/11/2026, Apple M1) — phần trong repo xong, chưa đẩy lên GitHub
+
+| Mục | Đã làm |
+|---|---|
+| CI (`.github/workflows/ci.yml`) | Mỗi commit lên `main` / pull request: kiểm tra không có dữ liệu cá nhân, phiên bản `project.yml` = `Info.plist`, chuẩn bị model, `swift test`, build Release + mọi bước kiểm tra của `make_dmg.sh`, lưu DMG làm artifact. Hai cấu hình: runner `xcode-27` (bản preview của GitHub, đúng Xcode 27.0 27A266a như máy phát triển; DMG lấy từ đây) và `macos-26` với Xcode 26.6 (bản ổn định) |
+| Model trên CI | `tools/fetch_models.sh` tải 2 model ONNX gốc, kiểm SHA-256; `convert_models.py --input` chuyển sang Core ML, **báo lỗi nếu lệch so với ONNX quá ngưỡng** (ArcFace cosine < 0,998; YuNet > 0,001). Cache theo nội dung script. Chuyển lại cho ra cùng trọng số với bản trên máy (chỉ khác ngày tạo trong metadata) |
+| Phát hành (`release.yml`) | Đẩy tag `v<phiên bản>` → kiểm tra tag = phiên bản app → build DMG → tạo bản phát hành **nháp** kèm DMG, `.sha256`, hướng dẫn cài (`tools/release_notes.sh`, có đoạn "Open Anyway" khi chưa notarize). Bấm Publish bằng tay |
+| Notarize | Có đủ 7 secret (ghi ở đầu `release.yml`) thì tự ký Developer ID + notarize + staple; thiếu một phần thì báo lỗi thay vì lặng lẽ ký ad-hoc. Ghi chú phát hành nói "đã notarize" dựa trên chính file DMG (`stapler validate`). Trên máy: biến môi trường cho `make_dmg.sh`. Không phải sửa code |
+| Kiểm tra chặn mạng | `tools/check_no_network.sh`: ký đúng entitlements của app cho chương trình thử `tools/netprobe.c`, kết nối tới 127.0.0.1 phải bị macOS từ chối (EPERM), bản đối chứng không sandbox phải kết nối được. Đã thử ngược: app ký lại có `network.client` thì script báo lỗi. Chạy trong mỗi lần `make_dmg.sh` |
+| Dữ liệu cá nhân | `tools/check_repo_privacy.sh`: báo lỗi nếu git theo dõi file ảnh/video/zip/chỉ mục/model theo đuôi, đường dẫn và kiểu nội dung (ảnh đổi đuôi), kể cả tên file tiếng Việt. `.gitignore` thêm RAW, HEIF, WebP, TIFF… |
+
+**Lỗi lớn tìm ra khi đo hiệu năng lần cuối: bộ nhớ GPU tăng không giới hạn.** Lập chỉ mục 1416 ảnh có bộ nhớ đỉnh
+**13,7 GB** (RSS chỉ 1,7 GB, phần còn lại là bộ nhớ GPU "IOAccelerator"). Máy 8 GB sẽ phải swap rất nặng. Nguyên nhân, đo
+bằng chương trình thử riêng:
+- Core ML trên GPU giữ một bản biên dịch + bộ nhớ riêng cho mỗi kích thước đầu vào và chỉ giữ được rất ít kích thước,
+  tính chung cho cả tiến trình. Vượt quá thì lần gọi nào cũng biên dịch lại, bộ nhớ cũ chỉ được trả khi GPU rảnh.
+- ArcFace được gọi với số mặt đúng bằng số mặt trong ảnh (1, 2, 3… mặt): mỗi số là một kích thước. Chỉ cần ArcFace có
+  từ 2 cỡ lô trở lên xen kẽ với YuNet là bộ nhớ tăng ~4,7 MB mỗi lượt (1 luồng). YuNet riêng: ≤ 6 kích thước ảnh thì ổn
+  định, 10 kích thước thì 9,4 GB sau 300 ảnh. `reshapeFrequency = .frequent` và `autoreleasepool` không giúp gì.
+
+Sửa (kết quả không đổi):
+- ArcFace luôn chạy lô cố định **4 mặt**, lô cuối đệm mặt rỗng. Vân mặt giống hệt khi chạy từng mặt một (kiểm từng bit
+  trên GPU; CSV kết quả lô 4 và lô 1 giống hệt từng byte). Lô 4 nhanh hơn lô 1 khoảng 6%.
+- YuNet: tối đa 4 kích thước ảnh chạy trên GPU, các kích thước khác chạy trên CPU (lệch so với ONNX cỡ 0,00001 như
+  GPU). Chỗ trên GPU theo tần suất (`ShapeBudget`): còn chỗ thì vào ngay; hết chỗ thì một kích thước chỉ thay được kích
+  thước ít gặp nhất khi gặp nhiều hơn gấp đôi + 8 lần, để vài ảnh mẫu lạ cỡ phân tích trước không đẩy cả thư viện sang CPU,
+  và không đổi chỗ qua lại liên tục (10 kích thước đều nhau, 10.000 ảnh: 0 lần đổi).
+- Thử nghiệm: 8 kích thước ảnh, 5 luồng, 500 lượt: ổn định ~2–2,5 GB. Test mới: `ShapeBudgetTests` (không cần model),
+  `ModelMemoryTests` (chạy khi có model; CI chạy test sau bước chuẩn bị model).
+- Tự kiểm tra toàn luồng của app, lập chỉ mục lại từ đầu: 1416 ảnh trong 300 giây (Giai đoạn 2: 313 giây), 58 khớp /
+  5 cần kiểm tra, các bước đánh dấu, Quick Look, quét lại đều đúng.
+
+| Lập chỉ mục 1416 ảnh 33 MP (`ffcli`, M1, 5 luồng) | Thời gian | Bộ nhớ đỉnh | So với CLI |
+|---|---|---|---|
+| Trước khi sửa | 4m44s | 13,7 GB | khớp 58/58, cần kiểm tra 5/5 |
+| Sau khi sửa | 5m23s* | 3,1 GB (bộ nhớ GPU đứng yên ~580 MB) | khớp 58/58, cần kiểm tra 5/5, lệch điểm lớn nhất 0,003 |
+
+\* Đo lúc `mediaanalysisd` của macOS chiếm ~200% CPU (load 8–12), lần đo trước lúc load ~4,5, nên chưa so được tốc độ.
+Đo xen kẽ trên cùng một zip (251 ảnh) cùng điều kiện: lô 4 38,6 s / 41,2 s, lô 1 40,6 s / 44,0 s.
+
+Soát lỗi phần CI/phát hành bằng workflow nhiều agent (4 khía cạnh, mỗi phát hiện 2 agent phản biện): 22 phát hiện, 13 được
+xác nhận, đã sửa hết. Đáng kể nhất: bước chặn bản phát hành còn chế độ tự kiểm tra **chưa bao giờ hoạt động** (tìm chuỗi
+`FF_SELFTEST` vốn không có trong file chạy, và `strings | grep -q` dưới `pipefail` có thể "qua" đúng lúc chuỗi có mặt).
+Giờ tìm tên kiểu `SelfTest`, đã thử trên cả bản SELFTEST (báo lỗi) và bản phát hành (qua).
+
+Soát riêng phần sửa bộ nhớ (2 khía cạnh, mỗi phát hiện 2 agent phản biện): 13 phát hiện, 6 được xác nhận, đã sửa: chỗ GPU
+từng chia theo "đến trước được trước" (ảnh mẫu lạ cỡ có thể đẩy cả thư viện sang CPU) → theo tần suất; test YuNet không
+chứng minh được ảnh có chạy CPU thật → tách phần chọn chỗ ra để test riêng; test dùng số ngẫu nhiên không seed và so theo
+thứ tự điểm → có seed, ghép theo IoU; `ffcli phase0` đo "GPU" nhưng lẫn ảnh chạy CPU → không dùng bản CPU dự phòng.
+
+Người dùng thử 0.4.0: nút **+** (Thêm nguồn ảnh) không chọn được thư mục (nút Thêm mờ). Hộp chọn khai báo
+`allowedContentTypes = [.zip]`; có danh sách kiểu mà thiếu `.folder` thì macOS không cho chọn thư mục dù đã bật
+`canChooseDirectories`. Hộp chọn ảnh mẫu cũng bị như vậy. Sửa ở 0.4.1 (thêm `.folder`); kéo thả thư mục vẫn luôn chạy được.
+
+Đã kiểm trên bản sao sạch của repo (không có repo CLI, không có model): `swift test` → tải model → chuyển model →
+`make_dmg.sh` đều qua. **Chưa kiểm được:** chạy thật trên GitHub Actions (repo chưa có trên GitHub), build bằng Xcode 26.6,
+đường ký Developer ID / notarize (chưa có tài khoản), chạy trên máy Intel.
 
 Tổng: khoảng **3–4 tuần** làm việc.
 

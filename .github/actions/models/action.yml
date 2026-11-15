@@ -1,0 +1,32 @@
+name: Chuẩn bị model Core ML
+description: >
+  Tải hai model ONNX gốc (kiểm SHA-256) và chuyển sang Core ML vào models/. Kết quả được cache theo nội dung các script
+  chuyển đổi, nên chỉ chạy lại khi script hoặc phiên bản thư viện đổi. Chuyển đổi cho ra cùng trọng số với bản trên máy
+  phát triển (chỉ khác ngày tạo trong metadata).
+runs:
+  using: composite
+  steps:
+    - name: Cache model đã chuyển
+      id: cache
+      uses: actions/cache@v4
+      with:
+        path: |
+          models/YuNet.mlpackage
+          models/ArcFaceR50.mlpackage
+        key: coreml-models-${{ hashFiles('tools/convert_models.py', 'tools/requirements.txt', 'tools/fetch_models.sh') }}
+
+    - name: Cài Python
+      if: steps.cache.outputs.cache-hit != 'true'
+      uses: actions/setup-python@v5
+      with:
+        python-version: "3.13"
+
+    - name: Tải và chuyển model
+      if: steps.cache.outputs.cache-hit != 'true'
+      shell: bash
+      run: |
+        python -m venv tools/.venv
+        tools/.venv/bin/pip install --quiet -r tools/requirements.txt
+        tools/fetch_models.sh
+        tools/.venv/bin/python tools/convert_models.py
+        rm -rf models/onnx

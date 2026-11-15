@@ -42,10 +42,11 @@ public final class Analyzer: Sendable {
     }
 
     public convenience init(modelsDirectory: URL, device: ComputeDevice = .gpu, detectorDevice: ComputeDevice? = nil,
-                            config: AnalyzerConfig = AnalyzerConfig()) async throws {
+                            embedBatch: Int = Embedder.defaultBatchSize, config: AnalyzerConfig = AnalyzerConfig()) async throws {
         let detector = try await FaceDetector(modelURL: Self.modelURL("YuNet", in: modelsDirectory), device: detectorDevice ?? device,
                                               scoreThreshold: config.detectionThreshold)
-        let embedder = try await Embedder(modelURL: Self.modelURL("ArcFaceR50", in: modelsDirectory), device: device)
+        let embedder = try await Embedder(modelURL: Self.modelURL("ArcFaceR50", in: modelsDirectory), device: device,
+                                          batchSize: embedBatch)
         self.init(detector: detector, embedder: embedder, config: config)
     }
 
@@ -75,7 +76,7 @@ public final class Analyzer: Sendable {
         if faces.isEmpty { return [] }
         let emb = try embedder.embed(crops, count: faces.count)
         for i in faces.indices {
-            faces[i].embedding = emb[(i * Embedder.dimension)..<((i + 1) * Embedder.dimension)].map { Float(Float16($0)) }
+            faces[i].embedding = Half.round(Array(emb[(i * Embedder.dimension)..<((i + 1) * Embedder.dimension)]))
         }
         return faces
     }

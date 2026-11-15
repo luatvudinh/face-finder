@@ -5,6 +5,7 @@
 #   tools/app_selftest.sh THƯ_MỤC_LÀM_VIỆC TÊN THƯ_MỤC_ẢNH_MẪU NGUỒN...
 #
 # Build Release (tốc độ như bản phát hành) có bật thêm SelfTest bằng cờ SELFTEST; bản phát hành thật không có cờ này.
+# Có sẵn THƯ_MỤC_LÀM_VIỆC/data/index.sqlite từ lần trước thì dùng lại (không phải lập chỉ mục lại).
 # Ghi vào THƯ_MỤC_LÀM_VIỆC: data/ (chỉ mục), out/ (thư mục kết quả), shots/ (ảnh chụp), selftest.log.
 set -euo pipefail
 ROOT=$(cd "$(dirname "$0")/.." && pwd)
@@ -20,5 +21,8 @@ work, name, refs, *sources = sys.argv[1:]
 json.dump({"sources": sources, "references": [refs], "name": name, "outputBase": f"{work}/out",
            "snapshots": f"{work}/shots", "threshold2": 0.55}, open(f"{work}/selftest.json", "w"), ensure_ascii=False)
 PY
+# FF_LANG=en để chạy giao diện tiếng Anh (mặc định: theo cài đặt của app, tức tiếng Việt)
+LANG_ARGS=()
+[ -n "${FF_LANG:-}" ] && LANG_ARGS=(-AppleLanguages "($FF_LANG)")
 FF_DATA_DIR="$WORK/data" FF_SELFTEST="$WORK/selftest.json" \
-  "$ROOT/.build-app-selftest/Build/Products/Release/Face Finder.app/Contents/MacOS/Face Finder" 2>&1 | tee "$WORK/selftest.log" | grep --line-buffered "\[selftest\]"
+  "$ROOT/.build-app-selftest/Build/Products/Release/Face Finder.app/Contents/MacOS/Face Finder" ${LANG_ARGS[@]+"${LANG_ARGS[@]}"} 2>&1 | tee "$WORK/selftest.log" | grep --line-buffered "\[selftest\]"

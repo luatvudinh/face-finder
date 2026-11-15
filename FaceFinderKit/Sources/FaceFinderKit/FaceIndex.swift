@@ -73,6 +73,22 @@ public final class FaceIndex: Sendable {
                 );
                 """)
         }
+        m.registerMigration("v3: image errors + marks + searches") { db in
+            try db.execute(sql: """
+                ALTER TABLE images ADD COLUMN error TEXT;  -- ảnh hỏng: lý do; không thử lại tới khi file đổi
+                ALTER TABLE people ADD COLUMN marks BLOB;  -- JSON [PersonMark]: ảnh người dùng đánh dấu đúng/sai
+                CREATE TABLE searches (                    -- lịch sử tìm của từng người
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    personId INTEGER NOT NULL REFERENCES people(id) ON DELETE CASCADE,
+                    at REAL NOT NULL,
+                    images INTEGER NOT NULL,
+                    matched INTEGER NOT NULL,
+                    review INTEGER NOT NULL,
+                    threshold REAL NOT NULL
+                );
+                CREATE INDEX searches_person ON searches(personId, at);
+                """)
+        }
         return m
     }
 
@@ -84,7 +100,7 @@ public final class FaceIndex: Sendable {
             let rows = try Row.fetchCursor(db, sql: """
                 SELECT i.key, i.stamp, f.idx, f.x, f.y, f.width, f.height, f.detectionScore, f.landmarks, f.embedding
                 FROM images i LEFT JOIN faces f ON f.imageId = i.id
-                WHERE i.signature = ? ORDER BY i.id, f.idx
+                WHERE i.signature = ? AND i.error IS NULL ORDER BY i.id, f.idx
                 """, arguments: [signature])
             while let row = try rows.next() {
                 let key: String = row[0]
@@ -95,10 +111,73 @@ public final class FaceIndex: Sendable {
                     x: Float(row[3] as Double), y: Float(row[4] as Double), width: Float(row[5] as Double), height: Float(row[6] as Double),
                     landmarks: lm.withUnsafeBytes { Array($0.bindMemory(to: Float.self)) },
                     detectionScore: Float(row[7] as Double),
-                    embedding: emb.withUnsafeBytes { $0.bindMemory(to: Float16.self).map { Float($0) } }))
+                    embedding: Half.decode(emb)))
             }
         }
         return out
+    }
+
+    /// Ảnh đã biết là hỏng (cùng `stamp`, cùng cấu hình): ảnh → lý do.
+    public func loadErrors(_ items: [ImageItem], signature: String) throws -> [String: String] {
+        let wanted = Dictionary(items.map { ($0.key, $0.stamp) }, uniquingKeysWith: { a, _ in a })
+        return try db.read { db in
+            var out: [String: String] = [:]
+            let rows = try Row.fetchCursor(db, sql: "SELECT key, stamp, error FROM images WHERE signature = ? AND error IS NOT NULL",
+                                           arguments: [signature])
+            while let row = try rows.next() {
+                if wanted[row[0] as String] == (row[1] as String) { out[row[0]] = row[2] }
+            }
+            return out
+        }
+    }
+
+    /// Ghi nhận ảnh hỏng (không giải mã được), để lần sau không thử lại khi file chưa đổi.
+    public func storeErrors(_ entries: [(item: ImageItem, error: String)], signature: String) throws {
+        if entries.isEmpty { return }
+        try db.write { db in
+            for (item, error) in entries {
+                try db.execute(sql: "DELETE FROM images WHERE key = ?", arguments: [item.key])
+                try db.execute(sql: "INSERT INTO images (key, stamp, signature, faceCount, error) VALUES (?, ?, ?, 0, ?)",
+                               arguments: [item.key, item.stamp, signature, error])
+            }
+        }
+    }
+
+    /// Xoá dữ liệu của những ảnh không còn trong nguồn nào (file đã bị xoá/đổi tên), để chỉ mục không phình mãi.
+    /// `prefixes`: các nguồn hiện có (thư mục kết thúc bằng "/", zip kết thúc bằng "::"); `keep`: ảnh còn tồn tại.
+    @discardableResult
+    public func prune(prefixes: [String], keep: Set<String>) throws -> Int {
+        try db.write { db in
+            var stale: [Int64] = []
+            let rows = try Row.fetchCursor(db, sql: "SELECT id, key FROM images")
+            while let row = try rows.next() {
+                let key: String = row[1]
+                if !keep.contains(key), prefixes.contains(where: { key.hasPrefix($0) }) { stale.append(row[0]) }
+            }
+            for chunk in stride(from: 0, to: stale.count, by: 500) {
+                let ids = stale[chunk..<min(chunk + 500, stale.count)]
+                try db.execute(sql: "DELETE FROM images WHERE id IN (\(ids.map { String($0) }.joined(separator: ",")))")
+            }
+            return stale.count
+        }
+    }
+
+    /// Xoá dữ liệu của ảnh không thuộc nguồn nào trong `prefixes` (nguồn đã bị bỏ khỏi thư viện, ảnh mẫu cũ...).
+    @discardableResult
+    public func pruneOutside(prefixes: [String]) throws -> Int {
+        try db.write { db in
+            var stale: [Int64] = []
+            let rows = try Row.fetchCursor(db, sql: "SELECT id, key FROM images")
+            while let row = try rows.next() {
+                let key: String = row[1]
+                if !prefixes.contains(where: { key.hasPrefix($0) }) { stale.append(row[0]) }
+            }
+            for chunk in stride(from: 0, to: stale.count, by: 500) {
+                let ids = stale[chunk..<min(chunk + 500, stale.count)]
+                try db.execute(sql: "DELETE FROM images WHERE id IN (\(ids.map { String($0) }.joined(separator: ",")))")
+            }
+            return stale.count
+        }
     }
 
     /// Ghi (hoặc ghi đè) kết quả phân tích của một loạt ảnh trong một giao dịch.
@@ -112,7 +191,7 @@ public final class FaceIndex: Sendable {
                 let imageId = db.lastInsertedRowID
                 for (idx, f) in faces.enumerated() {
                     let lm = f.landmarks.withUnsafeBufferPointer { Data(buffer: $0) }
-                    let emb = f.embedding.map { Float16($0) }.withUnsafeBufferPointer { Data(buffer: $0) }
+                    let emb = Half.encode(f.embedding)
                     try db.execute(sql: """
                         INSERT INTO faces (imageId, idx, x, y, width, height, detectionScore, landmarks, embedding)
                         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)

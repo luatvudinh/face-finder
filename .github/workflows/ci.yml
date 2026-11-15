@@ -1,0 +1,70 @@
+name: CI
+
+# Mỗi commit: chạy test của bộ máy, build bản Release của app, kiểm tra sandbox chặn mạng, đóng DMG.
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Xcode ${{ matrix.xcode }}
+    runs-on: ${{ matrix.runner }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          # Cùng Xcode với máy phát triển; bản DMG lấy từ đây.
+          - runner: xcode-27
+            xcode: "27.0"
+            artifact: true
+          # Xcode ổn định trên runner chính thức (không phải bản preview).
+          - runner: macos-26
+            xcode: "26.6"
+            artifact: false
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Chọn Xcode ${{ matrix.xcode }}
+        run: |
+          XC="/Applications/Xcode_${{ matrix.xcode }}.app"
+          [ -d "$XC" ] || { echo "Không có $XC. Có sẵn:"; ls -d /Applications/Xcode*; exit 1; }
+          sudo xcode-select -s "$XC"
+          xcodebuild -version
+          swift --version
+
+      - name: Không có dữ liệu cá nhân trong repo
+        run: tools/check_repo_privacy.sh
+
+      - name: Phiên bản trong project.yml và Info.plist trùng nhau
+        run: tools/app_version.sh
+
+      - name: Chuẩn bị model
+        uses: ./.github/actions/models
+
+      # Sau bước model: vài test gọi model thật (bộ nhớ GPU, đệm lô ArcFace, YuNet trên CPU)
+      - name: Test bộ máy (FaceFinderKit)
+        run: swift test --package-path FaceFinderKit
+
+      - name: Build app, kiểm tra sandbox chặn mạng, đóng DMG
+        run: tools/make_dmg.sh
+
+      - name: Lưu DMG
+        if: matrix.artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: FaceFinder-dmg
+          path: |
+            dist/*.dmg
+            dist/*.sha256
+          retention-days: 14

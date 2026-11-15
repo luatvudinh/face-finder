@@ -8,15 +8,24 @@ public final class Embedder: @unchecked Sendable {
     public static let cropBytes = Aligner.size * Aligner.size * 3
 
     private let model: MLModel
-    public let maxBatch: Int
+    /// Cỡ lô cố định: mọi lần gọi model đều có đúng `batchSize` mặt; lô cuối thiếu thì đệm mặt rỗng (bỏ kết quả).
+    ///
+    /// Không gọi model với số mặt tuỳ ý: Core ML trên GPU giữ một bản biên dịch + bộ nhớ riêng cho mỗi kích thước đầu
+    /// vào và chỉ giữ được rất ít kích thước, tính chung cho mọi model trong tiến trình. Khi ArcFace có từ 2 cỡ lô trở lên
+    /// xen kẽ với YuNet, bộ nhớ GPU tăng đều theo số lần gọi (lập chỉ mục 1416 ảnh từng lên tới 13,7 GB; PLAN.md mục 5.4).
+    /// Với một cỡ lô duy nhất thì ổn định. Kết quả của từng mặt không phụ thuộc cỡ lô (lô ≤ 12 cho vân mặt giống hệt
+    /// lô 1) nên đệm thêm mặt rỗng không làm đổi kết quả.
+    public let batchSize: Int
 
-    public init(model: MLModel, maxBatch: Int = 64) {
+    public static let defaultBatchSize = 4
+
+    public init(model: MLModel, batchSize: Int = Embedder.defaultBatchSize) {
         self.model = model
-        self.maxBatch = maxBatch
+        self.batchSize = min(max(batchSize, 1), 64)
     }
 
-    public convenience init(modelURL: URL, device: ComputeDevice = .auto, maxBatch: Int = 64) async throws {
-        self.init(model: try await ModelStore.load(modelURL, device: device), maxBatch: maxBatch)
+    public convenience init(modelURL: URL, device: ComputeDevice = .auto, batchSize: Int = Embedder.defaultBatchSize) async throws {
+        self.init(model: try await ModelStore.load(modelURL, device: device), batchSize: batchSize)
     }
 
     /// `crops`: `count` ảnh mặt nối liền nhau, mỗi ảnh 112*112*3 byte R, G, B (đầu ra của `Aligner.warp`).
@@ -26,7 +35,7 @@ public final class Embedder: @unchecked Sendable {
         var out = [Float](repeating: 0, count: count * Self.dimension)
         var done = 0
         while done < count {
-            let n = min(maxBatch, count - done)
+            let n = min(batchSize, count - done)
             let part = UnsafeBufferPointer(rebasing: crops[(done * Self.cropBytes)..<((done + n) * Self.cropBytes)])
             try out.withUnsafeMutableBufferPointer { dst in
                 try run(part, count: n, into: UnsafeMutableBufferPointer(rebasing: dst[(done * Self.dimension)..<((done + n) * Self.dimension)]))
@@ -42,8 +51,11 @@ public final class Embedder: @unchecked Sendable {
 
     private func run(_ crops: UnsafeBufferPointer<UInt8>, count n: Int, into dst: UnsafeMutableBufferPointer<Float>) throws {
         let side = Aligner.size, plane = side * side
-        let input = try MLMultiArray(shape: [n, 3, side, side].map { NSNumber(value: $0) }, dataType: .float32)
+        let input = try MLMultiArray(shape: [batchSize, 3, side, side].map { NSNumber(value: $0) }, dataType: .float32)
         input.withUnsafeMutableBufferPointer(ofType: Float.self) { p, _ in
+            if n < batchSize {  // mặt rỗng để đủ lô
+                p.baseAddress!.advanced(by: n * 3 * plane).update(repeating: 0, count: (batchSize - n) * 3 * plane)
+            }
             // RGB xen kẽ -> 3 mặt phẳng R, G, B (model tự chuẩn hoá (x - 127.5) / 127.5)
             for f in 0..<n {
                 let src = crops.baseAddress! + f * Self.cropBytes
@@ -54,7 +66,7 @@ public final class Embedder: @unchecked Sendable {
         }
         let result = try model.prediction(from: MLDictionaryFeatureProvider(dictionary: ["faces": MLFeatureValue(multiArray: input)]))
         guard let emb = result.featureValue(for: "embedding")?.multiArrayValue, emb.dataType == .float32,
-              emb.shape.map(\.intValue) == [n, Self.dimension] else {
+              emb.shape.map(\.intValue) == [batchSize, Self.dimension] else {
             throw ModelError.badOutput("embedding")
         }
         let st = emb.strides.map(\.intValue)

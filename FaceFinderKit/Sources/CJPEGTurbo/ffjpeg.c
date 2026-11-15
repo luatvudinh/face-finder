@@ -3,6 +3,7 @@
 #include <stdlib.h>
 
 #include "jpeglib.h"
+#include "jerror.h"
 #include "jconfigint.h"
 #include "ffjpeg.h"
 
@@ -10,10 +11,18 @@
 struct ff_error {
   struct jpeg_error_mgr pub;
   jmp_buf jump;
+  int truncated;  /* gặp cuối file trước khi đủ dữ liệu ảnh (libjpeg tự chèn EOI giả) */
 };
 
 static void ff_error_exit(j_common_ptr cinfo) { longjmp(((struct ff_error *)cinfo->err)->jump, 1); }
-static void ff_emit_message(j_common_ptr cinfo, int level) { if (level < 0) cinfo->err->num_warnings++; }
+static void ff_emit_message(j_common_ptr cinfo, int level)
+{
+  if (level < 0) {
+    cinfo->err->num_warnings++;
+    /* Pillow báo lỗi "image file is truncated" ở trường hợp này; làm giống vậy để CLI và app cùng coi là ảnh hỏng. */
+    if (cinfo->err->msg_code == JWRN_JPEG_EOF) ((struct ff_error *)cinfo->err)->truncated = 1;
+  }
+}
 static void ff_output_message(j_common_ptr cinfo) { (void)cinfo; }
 
 // Đọc header và đặt thiết lập giải mã giống Pillow (JpegDecode.c với draft = 0).
@@ -40,6 +49,7 @@ int ff_jpeg_output_size(const unsigned char *data, size_t size, int scale_denom,
   err.pub.error_exit = ff_error_exit;
   err.pub.emit_message = ff_emit_message;
   err.pub.output_message = ff_output_message;
+  err.truncated = 0;
   if (setjmp(err.jump)) {
     jpeg_destroy_decompress(&cinfo);
     return FF_JPEG_ERROR;
@@ -65,6 +75,7 @@ int ff_jpeg_decode_bgra(const unsigned char *data, size_t size, int scale_denom,
   err.pub.error_exit = ff_error_exit;
   err.pub.emit_message = ff_emit_message;
   err.pub.output_message = ff_output_message;
+  err.truncated = 0;
   if (setjmp(err.jump)) {
     jpeg_destroy_decompress(&cinfo);
     return FF_JPEG_ERROR;
@@ -83,6 +94,7 @@ int ff_jpeg_decode_bgra(const unsigned char *data, size_t size, int scale_denom,
         jpeg_read_scanlines(&cinfo, &row, 1);
       }
       jpeg_finish_decompress(&cinfo);
+      if (err.truncated) rc = FF_JPEG_TRUNCATED;
     }
   }
   jpeg_destroy_decompress(&cinfo);

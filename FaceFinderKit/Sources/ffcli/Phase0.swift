@@ -44,7 +44,7 @@ struct Phase0 {
         }
         var embedders: [(ComputeDevice, Embedder)] = []
         for device in devices {
-            let e = try await Embedder(modelURL: models.appendingPathComponent("ArcFaceR50.mlpackage"), device: device, maxBatch: 32)
+            let e = try await Embedder(modelURL: models.appendingPathComponent("ArcFaceR50.mlpackage"), device: device, batchSize: 32)
             _ = try e.embed(Array(crops.prefix(32 * Embedder.cropBytes)), count: min(32, n))  // làm nóng
             let t0 = Date()
             let got = try e.embed(crops, count: n)
@@ -59,8 +59,9 @@ struct Phase0 {
         var detected: [[DetectedFace]] = []
         var loaded = 0
         for device in devices where device != .neuralEngine {
-            let detector = try await FaceDetector(modelURL: models.appendingPathComponent("YuNet.mlpackage"), device: device,
-                                                  scoreThreshold: manifest.det_threshold)
+            // Không có bản CPU dự phòng: mỗi dòng đo đúng thiết bị ghi tên.
+            let detector = FaceDetector(model: try await ModelStore.load(models.appendingPathComponent("YuNet.mlpackage"), device: device),
+                                        scoreThreshold: manifest.det_threshold)
             var total = 0, found = 0, extra = 0, pixelMismatch = 0
             var lmErr: [Float] = [], boxErr: [Float] = [], scoreErr: [Float] = []
             var seconds = 0.0

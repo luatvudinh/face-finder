@@ -1,8 +1,9 @@
 import Foundation
 
 public struct AnalysisOutput: Sendable {
+    /// Khuôn mặt của từng ảnh đã phân tích được (ảnh lỗi không có trong đây).
     public var faces: [String: [FaceRecord]] = [:]
-    /// Ảnh không đọc/giải mã được, kèm lý do.
+    /// Ảnh không đọc/giải mã được, kèm lý do (cả ảnh hỏng đã biết từ lần trước, lưu trong chỉ mục).
     public var errors: [String: String] = [:]
     /// Số ảnh lấy lại từ chỉ mục, không phải phân tích lại.
     public var cached = 0
@@ -44,12 +45,16 @@ public enum Pipeline {
                                progress: @escaping @Sendable (Int, Int) -> Void = { _, _ in }) async throws -> AnalysisOutput {
         var out = AnalysisOutput()
         let signature = analyzer.config.signature
-        if let index { out.faces = try index.load(items, signature: signature) }
-        out.cached = out.faces.count
-        let todo = items.filter { out.faces[$0.key] == nil }
+        if let index {
+            out.faces = try index.load(items, signature: signature)
+            out.errors = try index.loadErrors(items, signature: signature)
+        }
+        out.cached = out.faces.count + out.errors.count
+        let todo = items.filter { out.faces[$0.key] == nil && out.errors[$0.key] == nil }
         if todo.isEmpty { return out }
 
-        typealias Result = (item: ImageItem, faces: [FaceRecord], error: String?)
+        /// `persistent`: ảnh hỏng thật (lưu vào chỉ mục, không thử lại tới khi file đổi); lỗi đọc file thì lần sau thử lại.
+        typealias Result = (item: ImageItem, faces: [FaceRecord], error: String?, persistent: Bool)
         let queue = WorkQueue(todo)
         let (stream, continuation) = AsyncStream<Result>.makeStream()
         let group = Task {
@@ -61,8 +66,9 @@ public enum Pipeline {
                             await control?.waitWhilePaused()
                             guard !Task.isCancelled, let item = await queue.next() else { break }
                             let result: Result = autoreleasepool {
-                                do { return (item, try analyzer.analyze(try reader.read(item)), nil) }
-                                catch { return (item, [], "\(error)") }
+                                do { return (item, try analyzer.analyze(try reader.read(item)), nil, false) }
+                                catch let error as ImageLoaderError { return (item, [], error.description, true) }
+                                catch { return (item, [], "\(error)", false) }
                             }
                             continuation.yield(result)
                         }
@@ -73,23 +79,38 @@ public enum Pipeline {
         }
 
         var pending: [(item: ImageItem, faces: [FaceRecord])] = []
+        var broken: [(item: ImageItem, error: String)] = []
+        func flush() throws {
+            try index?.store(pending, signature: signature)
+            try index?.storeErrors(broken, signature: signature)
+            pending.removeAll()
+            broken.removeAll()
+        }
         var done = 0
         do {
+            // AsyncStream kết thúc lặng lẽ khi Task bị huỷ (không ném lỗi): phải tự dừng các luồng xử lý.
+            try await withTaskCancellationHandler {
             for await r in stream {
-                out.faces[r.item.key] = r.faces
-                if let e = r.error { out.errors[r.item.key] = e } else { pending.append((r.item, r.faces)) }
-                if pending.count >= 100 {
-                    try index?.store(pending, signature: signature)
-                    pending.removeAll()
+                if let e = r.error {
+                    out.errors[r.item.key] = e
+                    if r.persistent { broken.append((r.item, e)) }
+                } else {
+                    out.faces[r.item.key] = r.faces
+                    pending.append((r.item, r.faces))
                 }
+                if pending.count + broken.count >= 100 { try flush() }
                 done += 1
                 progress(done, todo.count)
                 try Task.checkCancellation()
             }
-            try index?.store(pending, signature: signature)
+            try Task.checkCancellation()
+            } onCancel: {
+                group.cancel()
+            }
+            try flush()
         } catch {
             group.cancel()
-            try? index?.store(pending, signature: signature)
+            try? flush()
             throw error
         }
         return out

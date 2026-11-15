@@ -1,10 +1,10 @@
 # Chỉ dùng lúc phát triển, cho tools/convert_models.py (ONNX -> Core ML). Phiên bản đã kiểm chứng (11/2026).
-#   python3 -m venv tools/.venv && tools/.venv/bin/pip install -r tools/requirements.txt
+#   python3.13 -m venv tools/.venv && tools/.venv/bin/pip install -r tools/requirements.txt
 # tools/export_golden.py thì chạy bằng venv của CLI: face-finder/venv/bin/python
 coremltools==9.0
 numpy==2.5.4
 onnx==1.23.2
 onnx2torch==1.5.15
 onnxruntime==1.32.0
-pillow
+pillow==13.0.0
 torch==2.15.0

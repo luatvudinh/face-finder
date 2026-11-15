@@ -21,8 +21,10 @@ public enum ModelError: Error, CustomStringConvertible {
 
     public var description: String {
         switch self {
-        case .notFound(let url): return "Không tìm thấy model: \(url.path). Chạy tools/convert_models.py trước."
-        case .badOutput(let what): return "Model trả về dữ liệu không đúng định dạng: \(what)"
+        case .notFound(let url):
+            let path = url.path
+            return String(localized: "Không tìm thấy model: \(path). Chạy tools/convert_models.py trước.", bundle: .module)
+        case .badOutput(let what): return String(localized: "Model trả về dữ liệu không đúng định dạng: \(what)", bundle: .module)
         }
     }
 }

@@ -1,0 +1,3130 @@
+{
+  "sourceLanguage": "vi",
+  "strings": {
+    " · %.1f ảnh/giây": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": " · %.1f photos/sec"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": " · %.1f ảnh/giây"
+          }
+        }
+      }
+    },
+    " · còn khoảng %@": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": " · about %@ left"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": " · còn khoảng %@"
+          }
+        }
+      }
+    },
+    "#%lld": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "#%lld"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "#%lld"
+          }
+        }
+      }
+    },
+    "%.3f · %d mặt": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$.3f · %#@faces@"
+          },
+          "substitutions": {
+            "faces": {
+              "argNum": 2,
+              "formatSpecifier": "d",
+              "variations": {
+                "plural": {
+                  "one": {
+                    "stringUnit": {
+                      "state": "translated",
+                      "value": "%arg face"
+                    }
+                  },
+                  "other": {
+                    "stringUnit": {
+                      "state": "translated",
+                      "value": "%arg faces"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$.3f · %2$d mặt"
+          }
+        }
+      }
+    },
+    "%@ khuôn mặt": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ faces"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ khuôn mặt"
+          }
+        }
+      }
+    },
+    "%@ ảnh": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ photos"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ ảnh"
+          }
+        }
+      }
+    },
+    "%@ ảnh trong thư viện chưa được lập chỉ mục nên chưa được tìm.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ photos in the Library haven’t been indexed yet, so they weren’t searched."
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ ảnh trong thư viện chưa được lập chỉ mục nên chưa được tìm."
+          }
+        }
+      }
+    },
+    "%@ ảnh · %@ khuôn mặt · %@": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@ photos · %2$@ faces · %3$@"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@ ảnh · %2$@ khuôn mặt · %3$@"
+          }
+        }
+      }
+    },
+    "%@/%@ ảnh": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@/%2$@ photos"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@/%2$@ ảnh"
+          }
+        }
+      }
+    },
+    "%lld": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld"
+          }
+        }
+      }
+    },
+    "%lld giây": {
+      "localizations": {
+        "en": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld second"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld seconds"
+                }
+              }
+            }
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld giây"
+          }
+        }
+      }
+    },
+    "%lld khuôn mặt mẫu": {
+      "localizations": {
+        "en": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld reference face"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld reference faces"
+                }
+              }
+            }
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld khuôn mặt mẫu"
+          }
+        }
+      }
+    },
+    "%lld khớp · %lld cần kiểm tra (từ %@)": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%#@matches@ · %2$lld to review (from %3$@)"
+          },
+          "substitutions": {
+            "matches": {
+              "argNum": 1,
+              "formatSpecifier": "lld",
+              "variations": {
+                "plural": {
+                  "one": {
+                    "stringUnit": {
+                      "state": "translated",
+                      "value": "%arg match"
+                    }
+                  },
+                  "other": {
+                    "stringUnit": {
+                      "state": "translated",
+                      "value": "%arg matches"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$lld khớp · %2$lld cần kiểm tra (từ %3$@)"
+          }
+        }
+      }
+    },
+    "%lld nguồn · %@ ảnh · %@ khuôn mặt": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%#@sources@ · %2$@ photos · %3$@ faces"
+          },
+          "substitutions": {
+            "sources": {
+              "argNum": 1,
+              "formatSpecifier": "lld",
+              "variations": {
+                "plural": {
+                  "one": {
+                    "stringUnit": {
+                      "state": "translated",
+                      "value": "%arg source"
+                    }
+                  },
+                  "other": {
+                    "stringUnit": {
+                      "state": "translated",
+                      "value": "%arg sources"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$lld nguồn · %2$@ ảnh · %3$@ khuôn mặt"
+          }
+        }
+      }
+    },
+    "%lld phút %lld giây": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%#@minutes@ %#@seconds@"
+          },
+          "substitutions": {
+            "minutes": {
+              "argNum": 1,
+              "formatSpecifier": "lld",
+              "variations": {
+                "plural": {
+                  "one": {
+                    "stringUnit": {
+                      "state": "translated",
+                      "value": "%arg minute"
+                    }
+                  },
+                  "other": {
+                    "stringUnit": {
+                      "state": "translated",
+                      "value": "%arg minutes"
+                    }
+                  }
+                }
+              }
+            },
+            "seconds": {
+              "argNum": 2,
+              "formatSpecifier": "lld",
+              "variations": {
+                "plural": {
+                  "one": {
+                    "stringUnit": {
+                      "state": "translated",
+                      "value": "%arg second"
+                    }
+                  },
+                  "other": {
+                    "stringUnit": {
+                      "state": "translated",
+                      "value": "%arg seconds"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$lld phút %2$lld giây"
+          }
+        }
+      }
+    },
+    "%lld ảnh không ghi được (vd. %@). Các ảnh khác đã được cập nhật.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Couldn’t save %1$lld photos (e.g. %2$@). The others were updated."
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$lld ảnh không ghi được (vd. %2$@). Các ảnh khác đã được cập nhật."
+          }
+        }
+      }
+    },
+    "%lld ảnh không đọc được…": {
+      "localizations": {
+        "en": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld unreadable photo…"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld unreadable photos…"
+                }
+              }
+            }
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld ảnh không đọc được…"
+          }
+        }
+      }
+    },
+    "%lld ảnh mẫu. App đề xuất người #1; bấm vào hàng khác nếu chọn sai.": {
+      "localizations": {
+        "en": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld reference photo. The app suggests person #1; click another row if that’s the wrong person."
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld reference photos. The app suggests person #1; click another row if that’s the wrong person."
+                }
+              }
+            }
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld ảnh mẫu. App đề xuất người #1; bấm vào hàng khác nếu chọn sai."
+          }
+        }
+      }
+    },
+    "%lld ảnh mẫu. Đã chọn sẵn người #1. Nên thêm ảnh (ít nhất 3) để tìm chính xác hơn.": {
+      "localizations": {
+        "en": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld reference photo. Person #1 is already selected. Add more photos (at least 3) for more accurate results."
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld reference photos. Person #1 is already selected. Add more photos (at least 3) for more accurate results."
+                }
+              }
+            }
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld ảnh mẫu. Đã chọn sẵn người #1. Nên thêm ảnh (ít nhất 3) để tìm chính xác hơn."
+          }
+        }
+      }
+    },
+    "<tên>": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "<name>"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "<tên>"
+          }
+        }
+      }
+    },
+    "Bấm chọn ảnh (Cmd hoặc Shift để chọn nhiều) rồi nhấn D (đúng) hoặc S (sai) để dạy thêm cho app, Space để xem ảnh lớn, phím mũi tên để chuyển ảnh.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Select photos (hold Command or Shift to select several), then press Y (yes) or N (no) to teach the app, Space to see a photo larger, or the arrow keys to move between photos."
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bấm chọn ảnh (Cmd hoặc Shift để chọn nhiều) rồi nhấn D (đúng) hoặc S (sai) để dạy thêm cho app, Space để xem ảnh lớn, phím mũi tên để chuyển ảnh."
+          }
+        }
+      }
+    },
+    "Bỏ chọn": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Deselect"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bỏ chọn"
+          }
+        }
+      }
+    },
+    "Bỏ chọn (Esc)": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Deselect (Esc)"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bỏ chọn (Esc)"
+          }
+        }
+      }
+    },
+    "Bỏ hết": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Remove all"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bỏ hết"
+          }
+        }
+      }
+    },
+    "Bỏ khỏi thư viện": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Remove from Library"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bỏ khỏi thư viện"
+          }
+        }
+      }
+    },
+    "Bỏ qua: %@": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Skipped: %@"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bỏ qua: %@"
+          }
+        }
+      }
+    },
+    "Bỏ đánh dấu": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Clear mark"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bỏ đánh dấu"
+          }
+        }
+      }
+    },
+    "Bỏ đánh dấu %lld ảnh": {
+      "localizations": {
+        "en": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Clear mark on %lld photo"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Clear marks on %lld photos"
+                }
+              }
+            }
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bỏ đánh dấu %lld ảnh"
+          }
+        }
+      }
+    },
+    "Cho phép": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Allow"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cho phép"
+          }
+        }
+      }
+    },
+    "Cho phép Face Finder ghi kết quả vào thư mục này.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Allow Face Finder to save results to this folder."
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cho phép Face Finder ghi kết quả vào thư mục này."
+          }
+        }
+      }
+    },
+    "Cho phép ghi…": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Allow writing…"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cho phép ghi…"
+          }
+        }
+      }
+    },
+    "Chuyển kết quả sang…": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Move Results To…"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Chuyển kết quả sang…"
+          }
+        }
+      }
+    },
+    "Chuyển vào đây": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Move here"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Chuyển vào đây"
+          }
+        }
+      }
+    },
+    "Chưa chọn nơi lưu kết quả": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No location chosen for results"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Chưa chọn nơi lưu kết quả"
+          }
+        }
+      }
+    },
+    "Chưa có ai": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No one yet"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Chưa có ai"
+          }
+        }
+      }
+    },
+    "Chưa có nguồn ảnh": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No photo sources yet"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Chưa có nguồn ảnh"
+          }
+        }
+      }
+    },
+    "Chưa có ảnh nào đạt ngưỡng.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No photos meet the threshold yet."
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Chưa có ảnh nào đạt ngưỡng."
+          }
+        }
+      }
+    },
+    "Chỉ mục": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Index"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Chỉ mục"
+          }
+        }
+      }
+    },
+    "Chỉ mục và khuôn mặt mẫu chỉ nằm trên máy này, trong thư mục riêng của app. Thư mục kết quả đã ghi ra không bị ảnh hưởng.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The index and reference faces stay only on this Mac, in the app’s private folder. Results folders already written aren’t affected."
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Chỉ mục và khuôn mặt mẫu chỉ nằm trên máy này, trong thư mục riêng của app. Thư mục kết quả đã ghi ra không bị ảnh hưởng."
+          }
+        }
+      }
+    },
+    "Chỉ nhận thư mục hoặc file zip": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Only folders or zip files are accepted"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Chỉ nhận thư mục hoặc file zip"
+          }
+        }
+      }
+    },
+    "Chọn": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choose"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Chọn"
+          }
+        }
+      }
+    },
+    "Chọn nơi chuyển thư mục kết quả tới. Các lần cập nhật sau sẽ ghi vào chỗ mới.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choose where to move the results folder. Future updates will be saved to the new location."
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Chọn nơi chuyển thư mục kết quả tới. Các lần cập nhật sau sẽ ghi vào chỗ mới."
+          }
+        }
+      }
+    },
+    "Chọn nơi giữ thêm một bản thư mục kết quả.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choose where to keep an extra copy of the results folder."
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Chọn nơi giữ thêm một bản thư mục kết quả."
+          }
+        }
+      }
+    },
+    "Chọn nơi lưu kết quả.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choose where to save results."
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Chọn nơi lưu kết quả."
+          }
+        }
+      }
+    },
+    "Chọn thư mục hoặc file zip…": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choose folder or zip file…"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Chọn thư mục hoặc file zip…"
+          }
+        }
+      }
+    },
+    "Chọn thư mục ảnh hoặc file zip. Thư mục được quét cả thư mục con.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choose a photo folder or zip file. Subfolders are scanned too."
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Chọn thư mục ảnh hoặc file zip. Thư mục được quét cả thư mục con."
+          }
+        }
+      }
+    },
+    "Chọn vài ảnh rõ mặt của người cần tìm (càng nhiều góc mặt càng tốt; nên có ít nhất 3 ảnh).": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choose a few photos that clearly show the face of the person to find (the more face angles, the better; at least 3 photos recommended)."
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Chọn vài ảnh rõ mặt của người cần tìm (càng nhiều góc mặt càng tốt; nên có ít nhất 3 ảnh)."
+          }
+        }
+      }
+    },
+    "Chọn ảnh khác…": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choose another photo…"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Chọn ảnh khác…"
+          }
+        }
+      }
+    },
+    "Chọn ảnh mẫu…": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choose reference photos…"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Chọn ảnh mẫu…"
+          }
+        }
+      }
+    },
+    "Chọn…": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choose…"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Chọn…"
+          }
+        }
+      }
+    },
+    "Chờ app ghi xong thư mục kết quả rồi thử lại.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wait until the app finishes writing the results folder, then try again."
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Chờ app ghi xong thư mục kết quả rồi thử lại."
+          }
+        }
+      }
+    },
+    "Các ảnh này bị bỏ qua khi tìm. Nếu ảnh được chép lại hoặc tải lại, app sẽ tự đọc lại.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "These photos are skipped when searching. If they’re copied or downloaded again, the app will read them again automatically."
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Các ảnh này bị bỏ qua khi tìm. Nếu ảnh được chép lại hoặc tải lại, app sẽ tự đọc lại."
+          }
+        }
+      }
+    },
+    "Cần bạn cho phép ghi vào thư mục này.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Your permission is needed to write to this folder."
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cần bạn cho phép ghi vào thư mục này."
+          }
+        }
+      }
+    },
+    "Cần kiểm tra": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Needs review"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cần kiểm tra"
+          }
+        }
+      }
+    },
+    "Dùng làm ảnh mẫu": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Use as reference photo"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dùng làm ảnh mẫu"
+          }
+        }
+      }
+    },
+    "Dưới ngưỡng (giống nhất)": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Below threshold (closest)"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dưới ngưỡng (giống nhất)"
+          }
+        }
+      }
+    },
+    "Dữ liệu khuôn mặt": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Face data"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dữ liệu khuôn mặt"
+          }
+        }
+      }
+    },
+    "Face Finder": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Face Finder"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Face Finder"
+          }
+        }
+      }
+    },
+    "Face Finder chạy hoàn toàn trên máy. App được macOS chạy trong sandbox không có quyền truy cập mạng, và chỉ đọc/ghi được những thư mục bạn tự chọn hoặc kéo thả vào.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Face Finder runs entirely on this Mac. macOS runs the app in a sandbox with no network access, and it can only read and write folders you choose or drag in yourself."
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Face Finder chạy hoàn toàn trên máy. App được macOS chạy trong sandbox không có quyền truy cập mạng, và chỉ đọc/ghi được những thư mục bạn tự chọn hoặc kéo thả vào."
+          }
+        }
+      }
+    },
+    "Face Finder lưu kết quả vào thư mục này (thư mục con “%@”). Bấm “Cho phép” để đồng ý.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Face Finder saves results to this folder (in the “%@” subfolder). Click “Allow” to confirm."
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Face Finder lưu kết quả vào thư mục này (thư mục con “%@”). Bấm “Cho phép” để đồng ý."
+          }
+        }
+      }
+    },
+    "Face Finder lập chỉ mục khuôn mặt một lần, sau đó tìm ảnh của bất kỳ ai chỉ trong vài giây.\nMọi thứ chạy trên máy này; app không có quyền truy cập mạng.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Face Finder indexes faces once, then finds photos of anyone in just seconds.\nEverything runs on this Mac; the app has no network access."
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Face Finder lập chỉ mục khuôn mặt một lần, sau đó tìm ảnh của bất kỳ ai chỉ trong vài giây.\nMọi thứ chạy trên máy này; app không có quyền truy cập mạng."
+          }
+        }
+      }
+    },
+    "Giao diện": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Appearance"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Giao diện"
+          }
+        }
+      }
+    },
+    "Giấy phép": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "License"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Giấy phép"
+          }
+        }
+      }
+    },
+    "Hiện file zip trong Finder": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Show zip file in Finder"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hiện file zip trong Finder"
+          }
+        }
+      }
+    },
+    "Hiện thêm ảnh dưới ngưỡng": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Also show photos below threshold"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hiện thêm ảnh dưới ngưỡng"
+          }
+        }
+      }
+    },
+    "Hiện trong Finder": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Show in Finder"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hiện trong Finder"
+          }
+        }
+      }
+    },
+    "Huỷ": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cancel"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Huỷ"
+          }
+        }
+      }
+    },
+    "Khác": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Other"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Khác"
+          }
+        }
+      }
+    },
+    "Không chuyển được": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Couldn’t move"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Không chuyển được"
+          }
+        }
+      }
+    },
+    "Không có ảnh nào ở vùng cần kiểm tra.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No photos need review."
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Không có ảnh nào ở vùng cần kiểm tra."
+          }
+        }
+      }
+    },
+    "Không ghi được: %@": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Couldn’t write: %@"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Không ghi được: %@"
+          }
+        }
+      }
+    },
+    "Không lưu được": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Couldn’t save"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Không lưu được"
+          }
+        }
+      }
+    },
+    "Không phải": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Not them"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Không phải"
+          }
+        }
+      }
+    },
+    "Không phải (S)": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Not them (N)"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Không phải (S)"
+          }
+        }
+      }
+    },
+    "Không phải người này (S)": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Not this person (N)"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Không phải người này (S)"
+          }
+        }
+      }
+    },
+    "Không sao chép được": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Couldn’t copy"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Không sao chép được"
+          }
+        }
+      }
+    },
+    "Không thêm được nguồn": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Couldn’t add source"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Không thêm được nguồn"
+          }
+        }
+      }
+    },
+    "Không thấy khuôn mặt nào trong ảnh mẫu.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No faces found in the reference photos."
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Không thấy khuôn mặt nào trong ảnh mẫu."
+          }
+        }
+      }
+    },
+    "Không thấy khuôn mặt trong: %@": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No face found in: %@"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Không thấy khuôn mặt trong: %@"
+          }
+        }
+      }
+    },
+    "Không tìm thấy": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Not found"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Không tìm thấy"
+          }
+        }
+      }
+    },
+    "Không tìm thấy file zip (đã bị xoá, đổi tên hoặc ổ đĩa chưa cắm?)": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zip file not found (was it deleted or renamed, or is the drive disconnected?)"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Không tìm thấy file zip (đã bị xoá, đổi tên hoặc ổ đĩa chưa cắm?)"
+          }
+        }
+      }
+    },
+    "Không tìm thấy thư mục (đã bị xoá, đổi tên hoặc ổ đĩa chưa cắm?)": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Folder not found (was it deleted or renamed, or is the drive disconnected?)"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Không tìm thấy thư mục (đã bị xoá, đổi tên hoặc ổ đĩa chưa cắm?)"
+          }
+        }
+      }
+    },
+    "Không tạo được người": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Couldn’t create person"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Không tạo được người"
+          }
+        }
+      }
+    },
+    "Khớp": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Matches"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Khớp"
+          }
+        }
+      }
+    },
+    "Kéo sang phải để chặt hơn (ít ảnh nhầm), sang trái để tìm được nhiều hơn. Thư mục kết quả tự cập nhật theo.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Drag right to be stricter (fewer wrong matches), or left to find more. The results folder updates automatically."
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kéo sang phải để chặt hơn (ít ảnh nhầm), sang trái để tìm được nhiều hơn. Thư mục kết quả tự cập nhật theo."
+          }
+        }
+      }
+    },
+    "Kéo thả thêm thư mục ảnh hoặc file zip vào đây. Thư mục được quét cả thư mục con; ảnh trong zip được đọc thẳng, không cần giải nén.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Drop more photo folders or zip files here. Subfolders are scanned too; photos in zip files are read directly, with no need to unzip."
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kéo thả thêm thư mục ảnh hoặc file zip vào đây. Thư mục được quét cả thư mục con; ảnh trong zip được đọc thẳng, không cần giải nén."
+          }
+        }
+      }
+    },
+    "Kéo thả thư mục ảnh hoặc file zip vào đây": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Drop a photo folder or zip file here"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kéo thả thư mục ảnh hoặc file zip vào đây"
+          }
+        }
+      }
+    },
+    "Kéo thả vài ảnh rõ mặt của người cần tìm vào đây": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Drop a few clear face photos of the person to find here"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kéo thả vài ảnh rõ mặt của người cần tìm vào đây"
+          }
+        }
+      }
+    },
+    "Kết quả được ghi tự động vào thư mục này.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Results are saved to this folder automatically."
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kết quả được ghi tự động vào thư mục này."
+          }
+        }
+      }
+    },
+    "Lưu kết quả vào": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Save results to"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lưu kết quả vào"
+          }
+        }
+      }
+    },
+    "Lập chỉ mục": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Index"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lập chỉ mục"
+          }
+        }
+      }
+    },
+    "Lập chỉ mục thất bại": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Indexing failed"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lập chỉ mục thất bại"
+          }
+        }
+      }
+    },
+    "Lịch sử tìm (%lld)": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Search history (%lld)"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lịch sử tìm (%lld)"
+          }
+        }
+      }
+    },
+    "Model nhận diện ArcFace của InsightFace chỉ được dùng cho mục đích phi thương mại. Phát hiện khuôn mặt: YuNet (OpenCV Zoo, MIT). Giải mã JPEG: libjpeg-turbo.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The InsightFace ArcFace recognition model may be used for non-commercial purposes only. Face detection: YuNet (OpenCV Zoo, MIT). JPEG decoding: libjpeg-turbo."
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Model nhận diện ArcFace của InsightFace chỉ được dùng cho mục đích phi thương mại. Phát hiện khuôn mặt: YuNet (OpenCV Zoo, MIT). Giải mã JPEG: libjpeg-turbo."
+          }
+        }
+      }
+    },
+    "Mặc định": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Default"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mặc định"
+          }
+        }
+      }
+    },
+    "Mở lại app": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Relaunch app"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mở lại app"
+          }
+        }
+      }
+    },
+    "Mở rộng": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Expand"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mở rộng"
+          }
+        }
+      }
+    },
+    "Mở trong Finder": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Show in Finder"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mở trong Finder"
+          }
+        }
+      }
+    },
+    "Mở ảnh": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Open photo"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mở ảnh"
+          }
+        }
+      }
+    },
+    "Ngôn ngữ giao diện": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Interface language"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ngôn ngữ giao diện"
+          }
+        }
+      }
+    },
+    "Ngôn ngữ mới có hiệu lực khi mở lại app.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The new language takes effect after the app relaunches."
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ngôn ngữ mới có hiệu lực khi mở lại app."
+          }
+        }
+      }
+    },
+    "Người": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "People"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Người"
+          }
+        }
+      }
+    },
+    "Người đã lưu": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Saved people"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Người đã lưu"
+          }
+        }
+      }
+    },
+    "Ngưỡng": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Threshold"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ngưỡng"
+          }
+        }
+      }
+    },
+    "Ngưỡng khớp": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Match threshold"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ngưỡng khớp"
+          }
+        }
+      }
+    },
+    "Nên có từ 3 ảnh trở lên, ở nhiều góc mặt và cảnh khác nhau. Ảnh có nhiều người cũng được: app tự tìm người xuất hiện nhất quán.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Use 3 or more photos with different angles and settings. Group photos are fine: the app finds the person who appears consistently."
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nên có từ 3 ảnh trở lên, ở nhiều góc mặt và cảnh khác nhau. Ảnh có nhiều người cũng được: app tự tìm người xuất hiện nhất quán."
+          }
+        }
+      }
+    },
+    "Quét lại": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rescan"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Quét lại"
+          }
+        }
+      }
+    },
+    "Riêng tư": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Privacy"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Riêng tư"
+          }
+        }
+      }
+    },
+    "Sao chép sang…": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Copy To…"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sao chép sang…"
+          }
+        }
+      }
+    },
+    "Sao chép vào đây": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Copy here"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sao chép vào đây"
+          }
+        }
+      }
+    },
+    "Theo macOS": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Same as macOS"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Theo macOS"
+          }
+        }
+      }
+    },
+    "Thu gọn": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Collapse"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Thu gọn"
+          }
+        }
+      }
+    },
+    "Thêm": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Add"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Thêm"
+          }
+        }
+      }
+    },
+    "Thêm nguồn ảnh": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Add photo source"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Thêm nguồn ảnh"
+          }
+        }
+      }
+    },
+    "Thêm người cần tìm": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Add person to find"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Thêm người cần tìm"
+          }
+        }
+      }
+    },
+    "Thêm người cần tìm…": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Add person to find…"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Thêm người cần tìm…"
+          }
+        }
+      }
+    },
+    "Thêm người…": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Add Person…"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Thêm người…"
+          }
+        }
+      }
+    },
+    "Thêm thư mục hoặc file zip…": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Add folder or zip file…"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Thêm thư mục hoặc file zip…"
+          }
+        }
+      }
+    },
+    "Thêm thư mục ảnh hoặc file zip": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Add a photo folder or zip file"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Thêm thư mục ảnh hoặc file zip"
+          }
+        }
+      }
+    },
+    "Thêm thư mục ảnh hoặc file zip vào Thư viện trước.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Add a photo folder or zip file to the Library first."
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Thêm thư mục ảnh hoặc file zip vào Thư viện trước."
+          }
+        }
+      }
+    },
+    "Thêm ảnh…": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Add photos…"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Thêm ảnh…"
+          }
+        }
+      }
+    },
+    "Thư mục kết quả bị chuyển đi hoặc xoá trong lúc ghi; đã dừng lại.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The results folder was moved or deleted while saving, so the app stopped."
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Thư mục kết quả bị chuyển đi hoặc xoá trong lúc ghi; đã dừng lại."
+          }
+        }
+      }
+    },
+    "Thư mục kết quả đã khớp.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The results folder is up to date."
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Thư mục kết quả đã khớp."
+          }
+        }
+      }
+    },
+    "Thư viện chưa có ảnh nào. Thêm nguồn ảnh trước.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The Library has no photos yet. Add a photo source first."
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Thư viện chưa có ảnh nào. Thêm nguồn ảnh trước."
+          }
+        }
+      }
+    },
+    "Thư viện ảnh": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Library"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Thư viện ảnh"
+          }
+        }
+      }
+    },
+    "Thời gian": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Time"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Thời gian"
+          }
+        }
+      }
+    },
+    "Tiếp tục": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Resume"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tiếp tục"
+          }
+        }
+      }
+    },
+    "Tên (vd. Bé Gấu)": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Name (e.g. Teddy)"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tên (vd. Bé Gấu)"
+          }
+        }
+      }
+    },
+    "Tìm lại": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Search again"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tìm lại"
+          }
+        }
+      }
+    },
+    "Tìm lại trong toàn bộ thư viện": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Search the whole Library again"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tìm lại trong toàn bộ thư viện"
+          }
+        }
+      }
+    },
+    "Tìm ảnh mới hoặc đã thay đổi trong các nguồn (app cũng tự làm khi thư mục nguồn thay đổi)": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Find new or changed photos in your sources (the app also does this automatically when a source folder changes)"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tìm ảnh mới hoặc đã thay đổi trong các nguồn (app cũng tự làm khi thư mục nguồn thay đổi)"
+          }
+        }
+      }
+    },
+    "Tạm dừng": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pause"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tạm dừng"
+          }
+        }
+      }
+    },
+    "Tạo và tìm ảnh": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Create and find photos"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tạo và tìm ảnh"
+          }
+        }
+      }
+    },
+    "Xem ảnh lớn (Space)": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "View larger (Space)"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Xem ảnh lớn (Space)"
+          }
+        }
+      }
+    },
+    "Xoá": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Delete"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Xoá"
+          }
+        }
+      }
+    },
+    "Xoá %@?": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Delete %@?"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Xoá %@?"
+          }
+        }
+      }
+    },
+    "Xoá chỉ mục và mọi người đã lưu. Lần tìm sau app sẽ phải lập chỉ mục lại từ đầu.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Deletes the index and all saved people. The next search will have to index everything again from scratch."
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Xoá chỉ mục và mọi người đã lưu. Lần tìm sau app sẽ phải lập chỉ mục lại từ đầu."
+          }
+        }
+      }
+    },
+    "Xoá hết": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Delete all"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Xoá hết"
+          }
+        }
+      }
+    },
+    "Xoá người này và khuôn mặt mẫu khỏi app. Thư mục kết quả đã ghi ra vẫn được giữ nguyên.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Removes this person and their reference faces from the app. Results folders already written are kept as they are."
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Xoá người này và khuôn mặt mẫu khỏi app. Thư mục kết quả đã ghi ra vẫn được giữ nguyên."
+          }
+        }
+      }
+    },
+    "Xoá người…": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Delete Person…"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Xoá người…"
+          }
+        }
+      }
+    },
+    "Xoá toàn bộ dữ liệu khuôn mặt?": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Delete all face data?"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Xoá toàn bộ dữ liệu khuôn mặt?"
+          }
+        }
+      }
+    },
+    "Xoá toàn bộ dữ liệu khuôn mặt…": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Delete all face data…"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Xoá toàn bộ dữ liệu khuôn mặt…"
+          }
+        }
+      }
+    },
+    "bỏ %lld ảnh (vào Thùng rác)": {
+      "localizations": {
+        "en": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "moved %lld photo to the Trash"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "moved %lld photos to the Trash"
+                }
+              }
+            }
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "bỏ %lld ảnh (vào Thùng rác)"
+          }
+        }
+      }
+    },
+    "chuyển nhóm %lld ảnh": {
+      "localizations": {
+        "en": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "moved %lld photo between groups"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "moved %lld photos between groups"
+                }
+              }
+            }
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "chuyển nhóm %lld ảnh"
+          }
+        }
+      }
+    },
+    "có mặt trong %lld/%lld ảnh": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "appears in %1$lld/%2$lld photos"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "có mặt trong %1$lld/%2$lld ảnh"
+          }
+        }
+      }
+    },
+    "thêm %lld ảnh": {
+      "localizations": {
+        "en": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "added %lld photo"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "added %lld photos"
+                }
+              }
+            }
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "thêm %lld ảnh"
+          }
+        }
+      }
+    },
+    "Đang chờ lập chỉ mục…": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Waiting to index…"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Đang chờ lập chỉ mục…"
+          }
+        }
+      }
+    },
+    "Đang ghi kết quả": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Saving results"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Đang ghi kết quả"
+          }
+        }
+      }
+    },
+    "Đang ghi kết quả…": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Writing results…"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Đang ghi kết quả…"
+          }
+        }
+      }
+    },
+    "Đang liệt kê ảnh…": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Listing photos…"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Đang liệt kê ảnh…"
+          }
+        }
+      }
+    },
+    "Đang lập chỉ mục khuôn mặt": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Indexing faces"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Đang lập chỉ mục khuôn mặt"
+          }
+        }
+      }
+    },
+    "Đang nạp model nhận diện…": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Loading recognition model…"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Đang nạp model nhận diện…"
+          }
+        }
+      }
+    },
+    "Đang tìm khuôn mặt trong ảnh mẫu…": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Finding faces in reference photos…"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Đang tìm khuôn mặt trong ảnh mẫu…"
+          }
+        }
+      }
+    },
+    "Đang tìm…": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Searching…"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Đang tìm…"
+          }
+        }
+      }
+    },
+    "Đánh dấu %lld ảnh là không phải (S)": {
+      "localizations": {
+        "en": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Mark %lld photo as not them (N)"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Mark %lld photos as not them (N)"
+                }
+              }
+            }
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Đánh dấu %lld ảnh là không phải (S)"
+          }
+        }
+      }
+    },
+    "Đánh dấu %lld ảnh là đúng (D)": {
+      "localizations": {
+        "en": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Mark %lld photo as them (Y)"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Mark %lld photos as them (Y)"
+                }
+              }
+            }
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Đánh dấu %lld ảnh là đúng (D)"
+          }
+        }
+      }
+    },
+    "Đánh dấu tất cả ảnh đang chọn là không phải người này (S)": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mark all selected photos as not this person (N)"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Đánh dấu tất cả ảnh đang chọn là không phải người này (S)"
+          }
+        }
+      }
+    },
+    "Đánh dấu tất cả ảnh đang chọn là đúng người này (D)": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mark all selected photos as this person (Y)"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Đánh dấu tất cả ảnh đang chọn là đúng người này (D)"
+          }
+        }
+      }
+    },
+    "Đã chọn %lld ảnh": {
+      "localizations": {
+        "en": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld photo selected"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld photos selected"
+                }
+              }
+            }
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Đã chọn %lld ảnh"
+          }
+        }
+      }
+    },
+    "Đã cập nhật: %@.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Updated: %@."
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Đã cập nhật: %@."
+          }
+        }
+      }
+    },
+    "Đã huỷ lập chỉ mục.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Indexing canceled."
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Đã huỷ lập chỉ mục."
+          }
+        }
+      }
+    },
+    "Đã huỷ lập chỉ mục. Ảnh đã xử lý được giữ lại; bấm “Lập chỉ mục” để làm tiếp.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Indexing canceled. Photos already processed are kept; click “Index” to continue."
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Đã huỷ lập chỉ mục. Ảnh đã xử lý được giữ lại; bấm “Lập chỉ mục” để làm tiếp."
+          }
+        }
+      }
+    },
+    "Đã loại (✗)": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rejected (✗)"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Đã loại (✗)"
+          }
+        }
+      }
+    },
+    "Đã lập chỉ mục %lld ảnh trong %@.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Indexed %#@photos@ in %2$@."
+          },
+          "substitutions": {
+            "photos": {
+              "argNum": 1,
+              "formatSpecifier": "lld",
+              "variations": {
+                "plural": {
+                  "one": {
+                    "stringUnit": {
+                      "state": "translated",
+                      "value": "%arg photo"
+                    }
+                  },
+                  "other": {
+                    "stringUnit": {
+                      "state": "translated",
+                      "value": "%arg photos"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Đã lập chỉ mục %1$lld ảnh trong %2$@."
+          }
+        }
+      }
+    },
+    "Đã lập chỉ mục %lld ảnh trong %@. %lld ảnh không đọc được.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Indexed %#@photos@ in %2$@. %3$lld couldn’t be read."
+          },
+          "substitutions": {
+            "photos": {
+              "argNum": 1,
+              "formatSpecifier": "lld",
+              "variations": {
+                "plural": {
+                  "one": {
+                    "stringUnit": {
+                      "state": "translated",
+                      "value": "%arg photo"
+                    }
+                  },
+                  "other": {
+                    "stringUnit": {
+                      "state": "translated",
+                      "value": "%arg photos"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Đã lập chỉ mục %1$lld ảnh trong %2$@. %3$lld ảnh không đọc được."
+          }
+        }
+      }
+    },
+    "Đã tạm dừng": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Paused"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Đã tạm dừng"
+          }
+        }
+      }
+    },
+    "Đã tự dùng thêm %lld ảnh khớp chắc chắn làm mẫu để tìm được nhiều hơn.": {
+      "localizations": {
+        "en": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Automatically added %lld confident match as a reference photo to find more."
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Automatically added %lld confident matches as reference photos to find more."
+                }
+              }
+            }
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Đã tự dùng thêm %lld ảnh khớp chắc chắn làm mẫu để tìm được nhiều hơn."
+          }
+        }
+      }
+    },
+    "Đã đánh dấu: %lld đúng, %lld sai": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Marked: %1$lld correct, %2$lld wrong"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Đã đánh dấu: %1$lld đúng, %2$lld sai"
+          }
+        }
+      }
+    },
+    "Đúng người này": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "That’s them"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Đúng người này"
+          }
+        }
+      }
+    },
+    "Đúng người này (D)": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "That’s them (Y)"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Đúng người này (D)"
+          }
+        }
+      }
+    },
+    "đã lập chỉ mục %@/%@": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "indexed %1$@/%2$@"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "đã lập chỉ mục %1$@/%2$@"
+          }
+        }
+      }
+    },
+    "Ảnh không đọc được (%lld)": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unreadable photos (%lld)"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ảnh không đọc được (%lld)"
+          }
+        }
+      }
+    },
+    "Ảnh khớp được chép vào đây (ảnh gốc giữ nguyên); ảnh cần xem lại nằm trong thư mục con “Cần kiểm tra”.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Matching photos are copied here (the originals stay where they are). Photos that need a second look go in the “Cần kiểm tra” subfolder (Needs review)."
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ảnh khớp được chép vào đây (ảnh gốc giữ nguyên); ảnh cần xem lại nằm trong thư mục con “Cần kiểm tra”."
+          }
+        }
+      }
+    },
+    "Ảnh mẫu": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reference photos"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ảnh mẫu"
+          }
+        }
+      }
+    },
+    "Ảnh mẫu có nhiều người cùng xuất hiện — bấm vào hàng của người cần tìm (#1 là khả năng cao nhất).": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Several people appear in the reference photos — click the row of the person to find (#1 is the most likely)."
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ảnh mẫu có nhiều người cùng xuất hiện — bấm vào hàng của người cần tìm (#1 là khả năng cao nhất)."
+          }
+        }
+      }
+    },
+    "Ảnh đã tìm": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Photos searched"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ảnh đã tìm"
+          }
+        }
+      }
+    }
+  },
+  "version": "1.0"
+}

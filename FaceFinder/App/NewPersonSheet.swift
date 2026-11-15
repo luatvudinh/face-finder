@@ -128,17 +128,17 @@ struct NewPersonSheet: View {
     private var headline: String {
         let n = draft.imageCount
         if draft.ambiguous {
-            return "Ảnh mẫu có nhiều người cùng xuất hiện — bấm vào hàng của người cần tìm (#1 là khả năng cao nhất)."
+            return String(localized: "Ảnh mẫu có nhiều người cùng xuất hiện — bấm vào hàng của người cần tìm (#1 là khả năng cao nhất).")
         }
         if draft.usableCount < 3 {
-            return "\(n) ảnh mẫu. Đã chọn sẵn người #1. Nên thêm ảnh (ít nhất 3) để tìm chính xác hơn."
+            return String(localized: "\(n) ảnh mẫu. Đã chọn sẵn người #1. Nên thêm ảnh (ít nhất 3) để tìm chính xác hơn.")
         }
-        return "\(n) ảnh mẫu. App đề xuất người #1; bấm vào hàng khác nếu chọn sai."
+        return String(localized: "\(n) ảnh mẫu. App đề xuất người #1; bấm vào hàng khác nếu chọn sai.")
     }
 
     private var output: some View {
         let base = draft.outputBase ?? model.defaultOutputBase
-        let folderName = ResultFolder.folderName(for: draft.name.isEmpty ? "<tên>" : draft.name)
+        let folderName = ResultFolder.folderName(for: draft.name.isEmpty ? String(localized: "<tên>") : draft.name)
         return VStack(alignment: .leading, spacing: 6) {
             Text("Lưu kết quả vào").font(.headline)
             HStack {
@@ -148,7 +148,7 @@ struct NewPersonSheet: View {
                     .textSelection(.enabled)
                 Spacer()
                 Button("Chọn…") {
-                    if let url = model.access.askForFolder(at: base, message: "Chọn nơi lưu kết quả.", prompt: "Chọn") {
+                    if let url = model.access.askForFolder(at: base, message: String(localized: "Chọn nơi lưu kết quả."), prompt: String(localized: "Chọn")) {
                         model.rememberGrant(url)
                         draft.outputBase = url
                     }

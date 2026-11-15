@@ -18,19 +18,43 @@ public final class FaceDetector: @unchecked Sendable {
     private static let strides = [8, 16, 32]
 
     private let model: MLModel
+    /// Bản chạy trên CPU cho ảnh có kích thước lạ (xem `maxGPUShapes`); nil nếu `model` vốn đã chạy trên CPU.
+    private let cpuModel: MLModel?
     public let scoreThreshold: Float
     public let nmsThreshold: Float
     public let topK: Int
 
-    public init(model: MLModel, scoreThreshold: Float = 0.7, nmsThreshold: Float = 0.3, topK: Int = 5000) {
+    /// Số kích thước ảnh (sau khi chèn viền) tối đa được chạy trên GPU; các kích thước khác chạy trên CPU. Core ML trên
+    /// GPU giữ một bản biên dịch + bộ nhớ riêng cho mỗi kích thước đầu vào và chỉ giữ được rất ít kích thước (tính chung
+    /// cho cả tiến trình). Thư viện lẫn nhiều kích thước thì lần gọi nào cũng biên dịch lại và bộ nhớ GPU tăng không giới
+    /// hạn (10 kích thước: 9,4 GB sau 300 ảnh; PLAN.md mục 5.4). Kết quả trên CPU lệch không đáng kể (≤ 0,00001 so với
+    /// ONNX, như GPU). Chỗ trên GPU dành cho các kích thước gặp nhiều nhất (`ShapeBudget`).
+    public static let maxGPUShapes = 4
+    private let lock = NSLock()
+    private var budget = ShapeBudget(capacity: FaceDetector.maxGPUShapes)
+
+    public init(model: MLModel, cpuModel: MLModel? = nil, scoreThreshold: Float = 0.7, nmsThreshold: Float = 0.3,
+                topK: Int = 5000) {
         self.model = model
+        self.cpuModel = cpuModel
         self.scoreThreshold = scoreThreshold
         self.nmsThreshold = nmsThreshold
         self.topK = topK
     }
 
     public convenience init(modelURL: URL, device: ComputeDevice = .auto, scoreThreshold: Float = 0.7) async throws {
-        self.init(model: try await ModelStore.load(modelURL, device: device), scoreThreshold: scoreThreshold)
+        let model = try await ModelStore.load(modelURL, device: device)
+        let cpu = device == .cpu ? nil : try await ModelStore.load(modelURL, device: .cpu)
+        self.init(model: model, cpuModel: cpu, scoreThreshold: scoreThreshold)
+    }
+
+    /// Model dùng cho ảnh kích thước này: GPU nếu kích thước đang có chỗ trên GPU, không thì CPU.
+    private func model(forWidth w: Int, height h: Int) -> MLModel {
+        guard let cpuModel else { return model }
+        lock.lock()
+        let gpu = budget.useGPU(w << 16 | h)
+        lock.unlock()
+        return gpu ? model : cpuModel
     }
 
     public func detect(_ image: BGRAImage) throws -> [DetectedFace] {
@@ -40,7 +64,7 @@ public final class FaceDetector: @unchecked Sendable {
         let input = try MLDictionaryFeatureProvider(dictionary: [
             "image": MLFeatureValue(pixelBuffer: try Self.paddedBuffer(image, padW, padH))
         ])
-        let out = try model.prediction(from: input)
+        let out = try model(forWidth: padW, height: padH).prediction(from: input)
 
         var faces: [DetectedFace] = []
         for stride in Self.strides {
@@ -122,5 +146,34 @@ public final class FaceDetector: @unchecked Sendable {
             if keep { kept.append(i) }
         }
         return kept.map { faces[$0] }
+    }
+}
+
+/// Chọn kích thước ảnh nào được chạy trên GPU (tối đa `capacity` kích thước), theo số lần gặp.
+///
+/// Còn chỗ thì kích thước mới được vào ngay. Hết chỗ thì một kích thước chỉ thay được kích thước ít gặp nhất trên GPU khi
+/// đã gặp nhiều hơn hẳn (gấp đôi + `margin`), để: (1) vài ảnh lạ cỡ gặp đầu tiên (ví dụ ảnh mẫu là ảnh chụp màn hình)
+/// không giữ chỗ mãi trong khi cả thư viện ảnh máy ảnh phải chạy CPU; (2) không đổi chỗ qua lại liên tục (mỗi lần đổi là
+/// một lần biên dịch lại trên GPU), số lần đổi chỉ tăng theo log của số ảnh.
+struct ShapeBudget {
+    let capacity: Int
+    var margin = 8
+    private(set) var counts: [Int: Int] = [:]
+    private(set) var onGPU: Set<Int> = []
+    private(set) var swaps = 0
+
+    init(capacity: Int) { self.capacity = capacity }
+
+    mutating func useGPU(_ key: Int) -> Bool {
+        let n = (counts[key] ?? 0) + 1
+        counts[key] = n
+        if onGPU.contains(key) { return true }
+        if onGPU.count < capacity { onGPU.insert(key); return true }
+        guard let weakest = onGPU.min(by: { (counts[$0] ?? 0, $0) < (counts[$1] ?? 0, $1) }),
+              n >= 2 * (counts[weakest] ?? 0) + margin else { return false }
+        onGPU.remove(weakest)
+        onGPU.insert(key)
+        swaps += 1
+        return true
     }
 }

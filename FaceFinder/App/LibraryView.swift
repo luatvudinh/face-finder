@@ -50,6 +50,11 @@ struct LibraryView: View {
         .navigationTitle("Thư viện ảnh")
         .toolbar {
             ToolbarItem {
+                Button { model.rescan() } label: { Label("Quét lại", systemImage: "arrow.clockwise") }
+                    .help("Tìm ảnh mới hoặc đã thay đổi trong các nguồn (app cũng tự làm khi thư mục nguồn thay đổi)")
+                    .disabled(model.sources.isEmpty)
+            }
+            ToolbarItem {
                 Button { model.chooseSources() } label: { Label("Thêm nguồn ảnh", systemImage: "plus") }
                     .help("Thêm thư mục ảnh hoặc file zip")
             }
@@ -83,8 +88,10 @@ struct LibraryView: View {
 }
 
 struct SourceRow: View {
+    @Environment(AppModel.self) private var model
     let source: SourceRecord
     let stats: SourceStats?
+    @State private var showBroken = false
 
     var body: some View {
         HStack(spacing: 12) {
@@ -94,11 +101,16 @@ struct SourceRow: View {
                 Text(source.name).font(.headline).lineLimit(1)
                 Text((source.path as NSString).abbreviatingWithTildeInPath)
                     .font(.caption).foregroundStyle(.secondary).lineLimit(1).truncationMode(.middle)
+                ForEach(stats?.problems ?? [], id: \.self) { problem in
+                    Label(problem, systemImage: "exclamationmark.triangle.fill")
+                        .font(.caption).foregroundStyle(.orange).lineLimit(3)
+                }
             }
             Spacer()
             status
         }
         .padding(.vertical, 4)
+        .popover(isPresented: $showBroken, arrowEdge: .trailing) { BrokenList(items: model.brokenImages(in: source)) }
     }
 
     @ViewBuilder private var status: some View {
@@ -113,13 +125,38 @@ struct SourceRow: View {
                     } else {
                         Text("\(s.faces.formatted()) khuôn mặt")
                     }
-                    if s.errors > 0 { Text("\(s.errors) ảnh lỗi").foregroundStyle(.orange) }
+                    if s.errors > 0 {
+                        Button("\(s.errors) ảnh không đọc được…") { showBroken = true }
+                            .buttonStyle(.link).foregroundStyle(.orange)
+                    }
                 }
                 .font(.caption).foregroundStyle(.secondary).monospacedDigit()
             }
         } else {
             ProgressView().controlSize(.small)
         }
+    }
+}
+
+/// Danh sách ảnh không đọc được của một nguồn, kèm lý do.
+struct BrokenList: View {
+    let items: [(name: String, path: String, reason: String)]
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Text("Ảnh không đọc được (\(items.count))").font(.headline)
+            Text("Các ảnh này bị bỏ qua khi tìm. Nếu ảnh được chép lại hoặc tải lại, app sẽ tự đọc lại.")
+                .font(.caption).foregroundStyle(.secondary)
+            List(items, id: \.path) { item in
+                VStack(alignment: .leading, spacing: 2) {
+                    Text(item.name).font(.callout.bold())
+                    Text(item.reason).font(.caption)
+                    Text(item.path).font(.caption2).foregroundStyle(.secondary).lineLimit(1).truncationMode(.middle)
+                }
+            }
+            .frame(width: 440, height: min(360, CGFloat(items.count) * 58 + 20))
+        }
+        .padding(14)
     }
 }
 
@@ -138,13 +175,13 @@ struct IndexingBar: View {
                         Text("Đang nạp model nhận diện…")
                         ProgressView().progressViewStyle(.linear)
                     case .analyzing:
-                        Text(p.paused ? "Đã tạm dừng" : "Đang lập chỉ mục khuôn mặt")
+                        Text(p.paused ? String(localized: "Đã tạm dừng") : String(localized: "Đang lập chỉ mục khuôn mặt"))
                         ProgressView(value: Double(p.done), total: Double(max(1, p.total)))
                         Text(detail(p)).font(.caption).foregroundStyle(.secondary).monospacedDigit()
                     }
                 }
                 if p.phase == .analyzing {
-                    Button(p.paused ? "Tiếp tục" : "Tạm dừng") { model.setPaused(!p.paused) }
+                    Button(p.paused ? String(localized: "Tiếp tục") : String(localized: "Tạm dừng")) { model.setPaused(!p.paused) }
                 }
                 Button("Huỷ") { model.cancelIndexing() }
             }
@@ -161,9 +198,9 @@ struct IndexingBar: View {
     }
 
     private func detail(_ p: IndexingProgress) -> String {
-        var s = "\(p.done.formatted())/\(p.total.formatted()) ảnh"
-        if p.rate > 0 { s += String(format: " · %.1f ảnh/giây", p.rate) }
-        if let r = p.remaining, !p.paused { s += " · còn khoảng \(AppModel.duration(r))" }
+        var s = String(localized: "\(p.done.formatted())/\(p.total.formatted()) ảnh")
+        if p.rate > 0 { s += String(format: String(localized: " · %.1f ảnh/giây"), p.rate) }
+        if let r = p.remaining, !p.paused { s += String(localized: " · còn khoảng \(AppModel.duration(r))") }
         return s
     }
 }

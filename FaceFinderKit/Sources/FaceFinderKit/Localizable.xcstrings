@@ -1,0 +1,198 @@
+{
+  "sourceLanguage": "vi",
+  "strings": {
+    "%lld ảnh trong %@ được bảo vệ bằng mật khẩu, app chưa đọc được. Giải nén bằng Finder rồi thêm thư mục đã giải nén.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Password-protected photos in %2$@: %1$lld. The app can’t read them yet. Unzip it in Finder, then add the unzipped folder."
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$lld ảnh trong %2$@ được bảo vệ bằng mật khẩu, app chưa đọc được. Giải nén bằng Finder rồi thêm thư mục đã giải nén."
+          }
+        }
+      }
+    },
+    "'%@' không phải ảnh mẫu nào có khuôn mặt": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "'%@' isn’t one of the reference photos with a face"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "'%@' không phải ảnh mẫu nào có khuôn mặt"
+          }
+        }
+      }
+    },
+    "Bỏ qua file zip hỏng: %@": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Skipping damaged zip file: %@"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bỏ qua file zip hỏng: %@"
+          }
+        }
+      }
+    },
+    "Không phải file ảnh, hoặc định dạng app chưa đọc được": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Not a photo file, or an image format the app can’t read yet"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Không phải file ảnh, hoặc định dạng app chưa đọc được"
+          }
+        }
+      }
+    },
+    "Không tìm thấy model: %@. Chạy tools/convert_models.py trước.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Model not found: %@. Run tools/convert_models.py first."
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Không tìm thấy model: %@. Chạy tools/convert_models.py trước."
+          }
+        }
+      }
+    },
+    "Không tìm thấy: %@": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Not found: %@"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Không tìm thấy: %@"
+          }
+        }
+      }
+    },
+    "Model trả về dữ liệu không đúng định dạng: %@": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The model returned data in an unexpected format: %@"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Model trả về dữ liệu không đúng định dạng: %@"
+          }
+        }
+      }
+    },
+    "Thư mục %@ không do Face Finder tạo cho người này, không ghi vào đó.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The folder %@ wasn’t created by Face Finder for this person, so nothing will be written to it."
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Thư mục %@ không do Face Finder tạo cho người này, không ghi vào đó."
+          }
+        }
+      }
+    },
+    "không còn thấy file trong zip: %@": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "file no longer found in zip file: %@"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "không còn thấy file trong zip: %@"
+          }
+        }
+      }
+    },
+    "không đọc được: %@": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "can’t read: %@"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "không đọc được: %@"
+          }
+        }
+      }
+    },
+    "Ảnh bị hỏng, không giải mã được": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The photo is damaged and can’t be decoded"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ảnh bị hỏng, không giải mã được"
+          }
+        }
+      }
+    },
+    "Ảnh bị hỏng: file thiếu dữ liệu ở cuối (có thể tải về chưa xong)": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The photo is damaged: the file is missing data at the end (the download may not have finished)"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ảnh bị hỏng: file thiếu dữ liệu ở cuối (có thể tải về chưa xong)"
+          }
+        }
+      }
+    }
+  },
+  "version": "1.0"
+}

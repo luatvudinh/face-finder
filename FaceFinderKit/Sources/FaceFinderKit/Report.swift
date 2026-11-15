@@ -10,7 +10,7 @@ public enum Report {
         var text = "\u{FEFF}" + row(["tên file", "điểm", "kết quả", "số khuôn mặt", "nguồn", "lỗi"])
         for s in result.scores {
             let error = errors[s.item.key]
-            let status = error != nil ? "Lỗi đọc ảnh" : result.status(of: s.score).rawValue
+            let status = error != nil ? "Lỗi đọc ảnh" : result.status(of: s).rawValue
             text += row([s.item.name, String(format: "%.3f", s.score), status, String(s.faceCount), s.item.key, error ?? ""])
         }
         return Data(text.utf8)

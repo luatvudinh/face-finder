@@ -37,7 +37,8 @@ struct Find {
             config.jpegMode = mode
         }
         let analyzer = try await Analyzer(modelsDirectory: args.modelsURL(), device: device,
-                                          detectorDevice: args.device("detector-device", default: device), config: config)
+                                          detectorDevice: args.device("detector-device", default: device),
+                                          embedBatch: args.int("batch", default: Embedder.defaultBatchSize), config: config)
         let index = args.has("no-cache") ? nil : try FaceIndex(url: args.url("index", default: FaceIndex.defaultURL.path))
         let workers = args.int("workers", default: Pipeline.defaultWorkers)
 

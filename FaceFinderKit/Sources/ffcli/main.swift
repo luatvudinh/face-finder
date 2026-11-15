@@ -85,6 +85,7 @@ ffcli — công cụ dòng lệnh của FaceFinderKit (đo tốc độ, so với
         --since THỜI_GIAN         chỉ quét file sửa từ: today, 3d, 12h hoặc YYYY-MM-DD
         --device gpu|ne|cpu|auto  thiết bị chạy ArcFace (mặc định gpu)
         --detector-device ...     thiết bị chạy YuNet (mặc định như --device)
+        --batch N                 số mặt mỗi lần gọi ArcFace (mặc định 4; cố định, lô cuối đệm mặt rỗng)
         --jpeg turbo|imageio|thumbnail   bộ giải mã JPEG (mặc định turbo = libjpeg-turbo, trùng CLI)
         --workers N               số luồng giải mã + phát hiện mặt
         --models THƯ_MỤC          nơi có YuNet.mlpackage, ArcFaceR50.mlpackage (mặc định ./models, hoặc models/ ở gốc dự án)

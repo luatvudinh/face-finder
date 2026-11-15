@@ -5,8 +5,9 @@ Chuyển hai model ONNX của CLI sang Core ML (.mlpackage) cho app macOS.
     tools/.venv/bin/python tools/convert_models.py            # chuyển cả hai, có kiểm tra
     tools/.venv/bin/python tools/convert_models.py --only arcface --precision fp32
 
-Chỉ chạy lúc phát triển. Đầu vào lấy từ face-finder/models/ (do face-finder/setup.sh tải về),
-đầu ra ghi vào models/ ở gốc dự án. Cả hai thư mục đều không commit vào git.
+Chỉ chạy lúc phát triển và lúc build trên GitHub Actions. Đầu vào lấy từ face-finder/models/ (do
+face-finder/setup.sh tải về) nếu có, không thì từ models/onnx/ (do tools/fetch_models.sh tải về, có kiểm SHA-256);
+đầu ra ghi vào models/ ở gốc dự án. Không thư mục nào được commit vào git.
 
 Hai model sau khi chuyển:
 
@@ -33,6 +34,8 @@ from onnx2torch import convert as onnx_to_torch
 
 ROOT = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
 SRC = os.path.join(ROOT, "face-finder", "models")
+if not os.path.isdir(SRC):
+    SRC = os.path.join(ROOT, "models", "onnx")
 DST = os.path.join(ROOT, "models")
 
 # Tên tensor ngay trước các nút Transpose/Reshape/Sigmoid cuối cùng của yunet_2023mar.onnx.
@@ -82,6 +85,18 @@ def save(model, name, author, license_text, desc):
     return path
 
 
+# Ngưỡng của bước kiểm tra sau khi chuyển: vượt ngưỡng thì xoá model vừa ghi và báo lỗi (để CI không cache/đóng gói
+# một model hỏng khi thư viện chuyển đổi đổi phiên bản).
+ARCFACE_MIN_COSINE = 0.998
+YUNET_MAX_ERROR = {"fp32": 0.001, "fp16": 0.05}  # fp32 đã kiểm chứng: 0,00001
+
+
+def reject(path, bad, why):
+    if bad:
+        shutil.rmtree(path, ignore_errors=True)
+        sys.exit(f"LỖI: {why}. Đã xoá {path}.")
+
+
 def precision_of(name):
     return ct.precision.FLOAT16 if name == "fp16" else ct.precision.FLOAT32
 
@@ -113,6 +128,8 @@ def convert_arcface(precision, max_batch, verify):
             got = ct.models.MLModel(path, compute_units=units).predict({"faces": x})["embedding"]
             cos = np.sum(ref * got, 1) / (np.linalg.norm(ref, axis=1) * np.linalg.norm(got, axis=1))
             log(f"  kiểm tra {units.name:12s}: cosine so với ONNX min={cos.min():.6f}  (đầu vào ngẫu nhiên)")
+            # Bản FP16 đã kiểm chứng cho min ≈ 0,9995 (CPU, NE) và 0,999996 (GPU).
+            reject(path, cos.min() < ARCFACE_MIN_COSINE, f"ArcFace trên {units.name}: cosine {cos.min():.6f} < {ARCFACE_MIN_COSINE}")
 
 
 def cut_yunet(src):
@@ -166,6 +183,8 @@ def convert_yunet(precision, verify):
                 r = np.concatenate([ref[f"cls_{s}"][0], ref[f"obj_{s}"][0], ref[f"bbox_{s}"][0], ref[f"kps_{s}"][0]], 1)
                 worst = max(worst, float(np.abs(g - r).max()))
             log(f"  kiểm tra {units.name:12s}: sai lệch lớn nhất so với ONNX = {worst:.5f}  (ảnh ngẫu nhiên 640x640)")
+            limit = YUNET_MAX_ERROR[precision]
+            reject(path, worst > limit, f"YuNet trên {units.name}: sai lệch {worst:.5f} > {limit}")
 
 
 def main():
@@ -176,9 +195,13 @@ def main():
                     help="độ chính xác của YuNet (mặc định fp32: model chỉ 0,2 MB, không cần nén)")
     ap.add_argument("--max-batch", type=int, default=64, help="số mặt tối đa mỗi lần gọi ArcFace")
     ap.add_argument("--no-verify", action="store_true", help="bỏ bước so với ONNX Runtime")
+    ap.add_argument("--input", help="thư mục chứa yunet.onnx và w600k_r50.onnx (mặc định face-finder/models/, "
+                                    "không có thì models/onnx/)")
     ap.add_argument("--output", help="thư mục ghi model (mặc định models/ ở gốc dự án)")
     args = ap.parse_args()
-    global DST
+    global DST, SRC
+    if args.input:
+        SRC = os.path.abspath(os.path.expanduser(args.input))
     if args.output:
         DST = os.path.abspath(os.path.expanduser(args.output))
     os.makedirs(DST, exist_ok=True)
