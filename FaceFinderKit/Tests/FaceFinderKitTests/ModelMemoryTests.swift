@@ -76,13 +76,23 @@ struct SeededRNG: RandomNumberGenerator {
         #expect(batched.batchSize == 4)
         let data = crops(7)
         let one = try single.embed(data, count: 7)
+        let d = Embedder.dimension
+        func cosine(_ a: [Float], _ i: Int, _ b: [Float], _ j: Int) -> Float {
+            zip(a[(i * d)..<((i + 1) * d)], b[(j * d)..<((j + 1) * d)]).map(*).reduce(0, +)
+        }
+        // Mức phân biệt: hai mặt nhiễu khác nhau vẫn có cosine tới ~0,9 (đo trên M1), nên ngưỡng 0,999 vẫn bắt được lỗi
+        // đọc nhầm hàng hay đệm sai, mà không đòi giống từng bit.
+        var otherFaces: Float = -1
+        for i in 0..<7 { for j in 0..<7 where i != j { otherFaces = max(otherFaces, cosine(one, i, one, j)) } }
+        #expect(otherFaces < 0.99, "ảnh nhiễu cho vân mặt quá giống nhau: test không phân biệt được (\(otherFaces))")
         for n in [1, 3, 4, 5, 7] {
             let got = try batched.embed(Array(data.prefix(n * Embedder.cropBytes)), count: n)
-            #expect(got.count == n * Embedder.dimension)
-            // Trên GPU của M1 giống hệt từng bit; máy CI (máy ảo, có thể không có GPU) có thể chạy CPU/FP16 nên cho lệch nhỏ
-            // (vân mặt được lưu dạng Float16, sai số làm tròn ~5e-4).
-            let diff = zip(got, one.prefix(n * Embedder.dimension)).map { abs($0 - $1) }.max() ?? 0
-            #expect(diff < 1e-4, "n = \(n): lệch \(diff)")
+            #expect(got.count == n * d)
+            // So theo cosine từng mặt, không theo từng phần tử: trên GPU của M1 giống hệt từng bit, nhưng máy CI (máy ảo,
+            // Xcode 26.6) cho lệch từng phần tử ~1e-3 ngay cả khi n = 1, tức là do cách Core ML biên dịch theo cỡ lô
+            // trên máy đó, không phải do đệm. Mức lệch này không đổi kết quả tìm người.
+            let worst = (0..<n).map { cosine(got, $0, one, $0) }.min() ?? 0
+            #expect(worst > 0.999, "n = \(n): cosine thấp nhất \(worst)")
         }
     }
 
